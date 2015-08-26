@@ -14,6 +14,15 @@
 		533939F81B87162300E15029 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 533939F61B87162300E15029 /* LaunchScreen.storyboard */; };
 		53393A031B87162300E15029 /* Trap_The_DotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53393A021B87162300E15029 /* Trap_The_DotTests.swift */; };
 		53393A0E1B87162300E15029 /* Trap_The_DotUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53393A0D1B87162300E15029 /* Trap_The_DotUITests.swift */; };
+		53393A1C1B871ED000E15029 /* GameBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53393A1B1B871ED000E15029 /* GameBoardViewController.swift */; };
+		535B08BF1B8D643F00069BA2 /* TTDGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535B08BE1B8D643F00069BA2 /* TTDGame.swift */; };
+		535B08C11B8D74FF00069BA2 /* TTDGameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535B08C01B8D74FF00069BA2 /* TTDGameTest.swift */; };
+		53DFF6771B87F800002ADD4A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF6761B87F800002ADD4A /* HomeViewController.swift */; };
+		53DFF6791B87F856002ADD4A /* UIViewController+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF6781B87F856002ADD4A /* UIViewController+extensions.swift */; };
+		53DFF67B1B87FA37002ADD4A /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF67A1B87FA37002ADD4A /* ResultViewController.swift */; };
+		53DFF67D1B87FB4D002ADD4A /* UIView+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF67C1B87FB4D002ADD4A /* UIView+extensions.swift */; };
+		53DFF67F1B8805AC002ADD4A /* GameBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF67E1B8805AC002ADD4A /* GameBoardView.swift */; };
+		7EAC99632B916F66DF50BF15 /* Pods_Trap_The_Dot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13AD930D9DA4ED5BC4850381 /* Pods_Trap_The_Dot.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		13AD930D9DA4ED5BC4850381 /* Pods_Trap_The_Dot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trap_The_Dot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		533939EA1B87162300E15029 /* Trap-The-Dot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Trap-The-Dot.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		533939ED1B87162300E15029 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		533939EF1B87162300E15029 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +57,16 @@
 		53393A091B87162300E15029 /* Trap-The-DotUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Trap-The-DotUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53393A0D1B87162300E15029 /* Trap_The_DotUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trap_The_DotUITests.swift; sourceTree = "<group>"; };
 		53393A0F1B87162300E15029 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		53393A1B1B871ED000E15029 /* GameBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBoardViewController.swift; sourceTree = "<group>"; };
+		535B08BE1B8D643F00069BA2 /* TTDGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTDGame.swift; sourceTree = "<group>"; };
+		535B08C01B8D74FF00069BA2 /* TTDGameTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTDGameTest.swift; sourceTree = "<group>"; };
+		53DFF6761B87F800002ADD4A /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		53DFF6781B87F856002ADD4A /* UIViewController+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+extensions.swift"; sourceTree = "<group>"; };
+		53DFF67A1B87FA37002ADD4A /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
+		53DFF67C1B87FB4D002ADD4A /* UIView+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+extensions.swift"; sourceTree = "<group>"; };
+		53DFF67E1B8805AC002ADD4A /* GameBoardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBoardView.swift; sourceTree = "<group>"; };
+		726B961BEA347CC7E60F9A3E /* Pods-Trap-The-Dot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trap-The-Dot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trap-The-Dot/Pods-Trap-The-Dot.debug.xcconfig"; sourceTree = "<group>"; };
+		FC131DFBB28D8E173CB5B75C /* Pods-Trap-The-Dot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trap-The-Dot.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trap-The-Dot/Pods-Trap-The-Dot.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EAC99632B916F66DF50BF15 /* Pods_Trap_The_Dot.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +95,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		16D44F86416C961852563C3C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				13AD930D9DA4ED5BC4850381 /* Pods_Trap_The_Dot.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		281D2B3ECA6200FD55E855BA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				726B961BEA347CC7E60F9A3E /* Pods-Trap-The-Dot.debug.xcconfig */,
+				FC131DFBB28D8E173CB5B75C /* Pods-Trap-The-Dot.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		533939E11B87162300E15029 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +119,8 @@
 				53393A011B87162300E15029 /* Trap-The-DotTests */,
 				53393A0C1B87162300E15029 /* Trap-The-DotUITests */,
 				533939EB1B87162300E15029 /* Products */,
+				281D2B3ECA6200FD55E855BA /* Pods */,
+				16D44F86416C961852563C3C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,6 +143,13 @@
 				533939F41B87162300E15029 /* Assets.xcassets */,
 				533939F61B87162300E15029 /* LaunchScreen.storyboard */,
 				533939F91B87162300E15029 /* Info.plist */,
+				53393A1B1B871ED000E15029 /* GameBoardViewController.swift */,
+				53DFF6761B87F800002ADD4A /* HomeViewController.swift */,
+				53DFF6781B87F856002ADD4A /* UIViewController+extensions.swift */,
+				53DFF67A1B87FA37002ADD4A /* ResultViewController.swift */,
+				53DFF67C1B87FB4D002ADD4A /* UIView+extensions.swift */,
+				53DFF67E1B8805AC002ADD4A /* GameBoardView.swift */,
+				535B08BE1B8D643F00069BA2 /* TTDGame.swift */,
 			);
 			path = "Trap-The-Dot";
 			sourceTree = "<group>";
@@ -112,6 +159,7 @@
 			children = (
 				53393A021B87162300E15029 /* Trap_The_DotTests.swift */,
 				53393A041B87162300E15029 /* Info.plist */,
+				535B08C01B8D74FF00069BA2 /* TTDGameTest.swift */,
 			);
 			path = "Trap-The-DotTests";
 			sourceTree = "<group>";
@@ -132,9 +180,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 53393A121B87162300E15029 /* Build configuration list for PBXNativeTarget "Trap-The-Dot" */;
 			buildPhases = (
+				8DC6C5E05DCA3487CDE670E9 /* Check Pods Manifest.lock */,
 				533939E61B87162300E15029 /* Sources */,
 				533939E71B87162300E15029 /* Frameworks */,
 				533939E81B87162300E15029 /* Resources */,
+				4841882F1CCB1609A27A2099 /* Embed Pods Frameworks */,
+				8876FFB8B10BDC94F2B7DDAD /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -192,6 +243,7 @@
 				TargetAttributes = {
 					533939E91B87162300E15029 = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = L8WRN24LQD;
 					};
 					533939FD1B87162300E15029 = {
 						CreatedOnToolsVersion = 7.0;
@@ -250,13 +302,68 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4841882F1CCB1609A27A2099 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trap-The-Dot/Pods-Trap-The-Dot-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8876FFB8B10BDC94F2B7DDAD /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trap-The-Dot/Pods-Trap-The-Dot-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8DC6C5E05DCA3487CDE670E9 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		533939E61B87162300E15029 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53DFF67D1B87FB4D002ADD4A /* UIView+extensions.swift in Sources */,
+				53DFF6791B87F856002ADD4A /* UIViewController+extensions.swift in Sources */,
 				533939F01B87162300E15029 /* ViewController.swift in Sources */,
+				535B08BF1B8D643F00069BA2 /* TTDGame.swift in Sources */,
+				53DFF67F1B8805AC002ADD4A /* GameBoardView.swift in Sources */,
 				533939EE1B87162300E15029 /* AppDelegate.swift in Sources */,
+				53393A1C1B871ED000E15029 /* GameBoardViewController.swift in Sources */,
+				53DFF6771B87F800002ADD4A /* HomeViewController.swift in Sources */,
+				53DFF67B1B87FA37002ADD4A /* ResultViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +371,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				535B08C11B8D74FF00069BA2 /* TTDGameTest.swift in Sources */,
 				53393A031B87162300E15029 /* Trap_The_DotTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,9 +504,12 @@
 		};
 		53393A131B87162300E15029 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 726B961BEA347CC7E60F9A3E /* Pods-Trap-The-Dot.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Trap-The-Dot/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.reeonce.Trap-The-Dot";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -407,9 +518,12 @@
 		};
 		53393A141B87162300E15029 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FC131DFBB28D8E173CB5B75C /* Pods-Trap-The-Dot.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Trap-The-Dot/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.reeonce.Trap-The-Dot";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -483,6 +597,7 @@
 				53393A141B87162300E15029 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		53393A151B87162300E15029 /* Build configuration list for PBXNativeTarget "Trap-The-DotTests" */ = {
 			isa = XCConfigurationList;
@@ -491,6 +606,7 @@
 				53393A171B87162300E15029 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		53393A181B87162300E15029 /* Build configuration list for PBXNativeTarget "Trap-The-DotUITests" */ = {
 			isa = XCConfigurationList;
@@ -499,6 +615,7 @@
 				53393A1A1B87162300E15029 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
