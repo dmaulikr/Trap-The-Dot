@@ -1,0 +1,2 @@
+language: objective-c
+script: xcodebuild test -workspace Trap-The-Dot.xcworkspace -scheme Trap-The-Dot -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
