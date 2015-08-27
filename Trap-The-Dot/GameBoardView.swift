@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Spring
 
 extension NodeType {
     var color: CGColor {

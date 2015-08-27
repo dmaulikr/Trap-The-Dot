@@ -4,9 +4,9 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'Trap-The-Dot' do
-    pod 'SnapKit', :git => 'git@github.com:SnapKit/SnapKit.git', :branch => 'swift-2.0'
-    pod 'Spring', :git => 'git@github.com:MengTo/Spring.git', :branch => 'swift2'
-#    pod 'ExSwift', :git => 'git@github.com:pNre/ExSwift.git', :branch => 'Swift-2.0'
+    pod 'SnapKit', :git => 'https://github.com/SnapKit/SnapKit.git', :branch => 'swift-2.0'
+#    pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift2'
+#    pod 'ExSwift', :git => 'https://github.com/pNre/ExSwift.git', :branch => 'Swift-2.0'
 end
 
 target 'Trap-The-DotTests' do

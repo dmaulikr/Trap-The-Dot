@@ -1,0 +1,9 @@
+language: objective-c
+osx_image: xcode7.0
+before_install:
+    - gem install cocoapods --no-rdoc --no-ri --no-document --quiet
+script:
+    - xcodebuild -version
+    - xcodebuild -showsdks
+    - xcodebuild -workspace Trap-The-Dot.xcworkspace -scheme Trap-The-Dot -sdk iphonesimulator9.0 -destination "OS=9.0,name=iPhone 6 Plus" ONLY_ACTIVE_ARCH=NO
+    - xcodebuild test -workspace Trap-The-Dot.xcworkspace -scheme Trap-The-DotTests -sdk iphonesimulator9.0 -destination "OS=9.0,name=iPhone 6 Plus" ONLY_ACTIVE_ARCH=NO
