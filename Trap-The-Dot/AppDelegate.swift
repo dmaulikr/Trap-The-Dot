@@ -7,6 +7,19 @@
 //
 
 import UIKit
+import XCGLogger
+
+let logger: XCGLogger = {
+    let log = XCGLogger.defaultInstance()
+    log.setup(.Debug, showThreadName: true, showLogLevel: true, showFileNames: true, showLineNumbers: true, writeToFile: nil, fileLogLevel: .Debug)
+    
+    let dateFormatter = NSDateFormatter()
+    dateFormatter.dateFormat = "MM/dd/yyyy hh:mma"
+    dateFormatter.locale = NSLocale.currentLocale()
+    log.dateFormatter = dateFormatter
+    
+    return log
+}()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

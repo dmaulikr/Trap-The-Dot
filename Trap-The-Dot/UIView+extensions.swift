@@ -15,4 +15,20 @@ extension UIView {
             self.addSubview(v)
         }
     }
+    
+    func takeSnapshot() -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.mainScreen().scale)
+        drawViewHierarchyInRect(self.bounds, afterScreenUpdates: true)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+}
+
+extension UIStackView {
+    func addArrangedSubviews(views: [UIView]) {
+        for v in views {
+            self.addArrangedSubview(v)
+        }
+    }
 }

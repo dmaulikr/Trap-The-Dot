@@ -16,7 +16,10 @@ class GameBoardViewController: UIViewController {
     lazy var colorButton: UIButton = UIButton()
     lazy var stepsLabel: UILabel = UILabel()
     var gameBoardView: GameBoardView!
-    let game = TTDGame(lines: 9, columns: 9)
+    
+    let gameLines = 9
+    let gameColumns = 9
+    var game: TTDGame!
     
     private var reachablePolices = [NodeIndex]()
     
@@ -28,8 +31,8 @@ class GameBoardViewController: UIViewController {
         colorButton.backgroundColor = UIColor.blackColor()
         stepsLabel.text = "0 step"
         
-        game.initData(20)
-        gameBoardView = GameBoardView(data: game.gameData)
+        game = TTDGame(lines: gameLines, columns: gameColumns)
+        gameBoardView = GameBoardView(lines: gameLines, columns: gameColumns)
         
         self.view.addSubview(soundButton)
         self.view.addSubview(colorButton)
@@ -60,11 +63,32 @@ class GameBoardViewController: UIViewController {
         
         view.backgroundColor = UIColor.lightGrayColor()
         gameBoardView.backgroundColor = view.backgroundColor
+        
+        initGame()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func initGame() {
+        guard let currentLevel = GameLevel.currentLevel else {
+            NSNotificationCenter.defaultCenter().postNotificationName("gotoHome", object: nil)
+            return
+        }
+        
+        game.initData(currentLevel.policeNumber)
+        gameBoardView.initGameViewWithData(game.gameData)
+        
+        if game.searchNext() == nil {
+            if let circlePolices = game.getCircleSortedPolices() {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.gameBoardView.linkCirclePolices(circlePolices)
+                    self.showResult(.Win)
+                })
+            }
+        }
     }
     
     func handleTap(recognizer: UITapGestureRecognizer) {
@@ -86,11 +110,13 @@ class GameBoardViewController: UIViewController {
             if game.checkIndexValid(nextIndex) {
                 game.gameData[game.dotIndex.line][game.dotIndex.column] = .Road
                 game.gameData[nextIndex.line][nextIndex.column] = .Dot
-                gameBoardView.moveDotFrom(game.dotIndex, toIndex: nextIndex)
+                gameBoardView.moveDotFrom(game.dotIndex, toIndex: nextIndex, game: game)
                 game.dotIndex = nextIndex
                 return
             } else {
-                showResult(.Fail)
+                gameBoardView.dotEscapeTo(nextIndex, from: game.dotIndex) {
+                    self.showResult(.Fail)
+                }
                 return
             }
         }
@@ -101,8 +127,7 @@ class GameBoardViewController: UIViewController {
     }
     
     func showResult(result: Result) {
-        let alert = UIAlertController(title: result.title, message: result.message, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "好的", style: .Cancel, handler: nil))
-        self.showViewController(alert, sender: nil)
+        let snapshot = view.takeSnapshot()
+        NSNotificationCenter.defaultCenter().postNotificationName("showResult", object: nil, userInfo: ["result": Wrapper(theValue: result), "snapshot": snapshot])
     }
 }

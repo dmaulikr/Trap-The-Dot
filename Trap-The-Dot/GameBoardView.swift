@@ -27,17 +27,28 @@ class GameBoardView: UIView {
     var layers = [[CALayer]]()
     var nodeWidth: CGFloat = 0
     
-    init(data: [[NodeType]]) {
+    init(lines: Int, columns: Int) {
         super.init(frame: CGRectZero)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
         
-        for line in data {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func initGameViewWithData(data: [[NodeType]]) {
+        if let sublayers = layer.sublayers {
+            for sublayer in sublayers {
+                sublayer.removeFromSuperlayer()
+            }
+        }
+        
+        layers = [[CALayer]]()
+        for (line, lineData) in data.enumerate() {
             var lineLayers = [CALayer]()
-            for type in line {
-                let layer = CALayer()
-                layer.backgroundColor = type.color
-                layer.masksToBounds = true
-                layer.borderWidth = 2
-                
+            for (column, type) in lineData.enumerate() {
+                let layer = nodeLayerForIndex(NodeIndex(line: line, column: column), type: type)
                 self.layer.addSublayer(layer)
                 lineLayers.append(layer)
             }
@@ -45,11 +56,20 @@ class GameBoardView: UIView {
         }
         layoutNodeLayers()
     }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-        fatalError("init(coder:) has not been implemented")
+    
+    func nodeLayerForIndex(index: NodeIndex, type: NodeType) -> CALayer {
+        let layer = CALayer()
+        layer.borderWidth = 3
+        layer.backgroundColor = type.color
+//        let textLayer = CATextLayer()
+//        textLayer.string = "\(index.line), \(index.column)"
+//        textLayer.alignmentMode = kCAAlignmentCenter
+//        textLayer.foregroundColor = UIColor.whiteColor().CGColor
+//        textLayer.font = UIFont.systemFontOfSize(20)
+//        textLayer.fontSize = 20
+//        textLayer.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+//        layer.addSublayer(textLayer)
+        return layer
     }
     
     func layoutNodeLayers() {
@@ -96,7 +116,17 @@ class GameBoardView: UIView {
         layer.addAnimation(animation, forKey: "backgroundColor")
     }
     
-    func moveDotFrom(from: NodeIndex, toIndex to: NodeIndex) {
+    func copyDotLayer(dotIndex: NodeIndex) -> CALayer {
+        let dotLayer = CALayer()
+        dotLayer.backgroundColor = NodeType.Dot.color
+        dotLayer.frame = layers[dotIndex.line][dotIndex.column].frame
+        dotLayer.borderWidth = 3
+        dotLayer.cornerRadius = nodeWidth / 2
+        dotLayer.borderColor = (backgroundColor ?? UIColor.lightGrayColor()).CGColor
+        return dotLayer
+    }
+    
+    func moveDotFrom(from: NodeIndex, toIndex to: NodeIndex, game: TTDGame) {
         guard checkIndexValid(from) && checkIndexValid(to) else {
             return
         }
@@ -104,28 +134,25 @@ class GameBoardView: UIView {
         let fromOrigin = originOfIndex(from)
         let toOrigin = originOfIndex(to)
         layers[from.line][from.column].backgroundColor = NodeType.Road.color
-        let dotLayer = CALayer(layer: layers[from.line][from.column])
-        dotLayer.backgroundColor = NodeType.Dot.color
-        dotLayer.frame = layers[from.line][from.column].frame
-        dotLayer.masksToBounds = true
-        dotLayer.borderWidth = 2
-        dotLayer.cornerRadius = nodeWidth / 2
-        dotLayer.borderColor = (backgroundColor ?? UIColor.lightGrayColor()).CGColor
-        self.layer.addSublayer(dotLayer)
+        
+        let copyedDotLayer = copyDotLayer(from)
+        self.layer.addSublayer(copyedDotLayer)
         
         CATransaction.begin()
         let animation = CABasicAnimation(keyPath: "position")
-        animation.fromValue = NSValue(CGPoint: dotLayer.position)
-        let toPosition = CGPoint(x: dotLayer.position.x + toOrigin.x - fromOrigin.x, y: dotLayer.position.y + toOrigin.y - fromOrigin.y)
+        animation.fromValue = NSValue(CGPoint: copyedDotLayer.position)
+        let toPosition = CGPoint(x: copyedDotLayer.position.x + toOrigin.x - fromOrigin.x, y: copyedDotLayer.position.y + toOrigin.y - fromOrigin.y)
         animation.toValue = NSValue(CGPoint: toPosition)
         animation.duration = 0.5
         animation.removedOnCompletion = false
         animation.fillMode = kCAFillModeForwards
         CATransaction.setCompletionBlock { () -> Void in
-            self.layers[to.line][to.column].backgroundColor = NodeType.Dot.color
-            dotLayer.removeFromSuperlayer()
+            if game.dotIndex == to {
+                self.layers[to.line][to.column].backgroundColor = NodeType.Dot.color
+            }
+            copyedDotLayer.removeFromSuperlayer()
         }
-        dotLayer.addAnimation(animation, forKey: "position")
+        copyedDotLayer.addAnimation(animation, forKey: "position")
         CATransaction.commit()
     }
     
@@ -147,6 +174,36 @@ class GameBoardView: UIView {
             lineLayer.lineJoin = kCALineJoinRound
             lineLayer.fillColor = UIColor.clearColor().CGColor
             self.layer.addSublayer(lineLayer)
+        }
+    }
+    
+    func dotEscapeTo(index: NodeIndex, from: NodeIndex, complete: ()->()) {
+        let copyedDotLayer = copyDotLayer(from)
+        self.layer.addSublayer(copyedDotLayer)
+        layers[from.line][from.column].backgroundColor =  NodeType.Road.color
+        
+        // as CATransition manipulates a layer’s cached image to create visual effects, so need to wait for the layer's updating on screen
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+            CATransaction.begin()
+            let transition = CATransition()
+            transition.type = kCATransitionReveal
+            transition.duration = 1.0
+            transition.removedOnCompletion = true
+            transition.fillMode = kCAFillModeForwards
+            
+            if (index.line < 0) { transition.subtype = kCATransitionFromTop }
+            else if (index.line >= self.layers.count) { transition.subtype = kCATransitionFromBottom }
+            else if (index.column < 0) { transition.subtype = kCATransitionFromRight }
+            else { transition.subtype = kCATransitionFromLeft }
+            
+            CATransaction.setCompletionBlock { () -> Void in
+                copyedDotLayer.removeFromSuperlayer()
+                complete()
+            }
+            
+            copyedDotLayer.backgroundColor =  NodeType.Road.color
+            copyedDotLayer.addAnimation(transition, forKey: kCATransitionReveal)
+            CATransaction.commit()
         }
     }
     

@@ -8,6 +8,101 @@
 
 import Foundation
 
+enum GameType {
+    case Random
+    case Easy
+    case Hard
+    
+    var title: String {
+        switch self {
+        case .Random:
+            return "随机模式"
+        case .Easy:
+            return "简单模式"
+        case .Hard:
+            return "困难模式"
+        }
+    }
+    
+    var allLevels: [GameLevel] {
+        switch self {
+        case .Random:
+            return [GameLevel(type: .Random, level: 0)]
+        case .Easy:
+            var allLevels = [GameLevel]()
+            for i in 0...4 {
+                allLevels.append(GameLevel(type: .Easy, level: i + 1))
+            }
+            return allLevels
+        case .Hard:
+            var allLevels = [GameLevel]()
+            for i in 0...4 {
+                allLevels.append(GameLevel(type: .Hard, level: i + 1))
+            }
+            return allLevels
+        }
+    }
+}
+
+struct GameLevel: Hashable {
+    var type: GameType
+    var level: Int
+    
+    var policeNumber: Int {
+        switch type {
+        case .Random:
+            return Int(arc4random_uniform(20)) + 5
+        case .Easy:
+            return 40 - level * 3
+        case .Hard:
+            return 20 - 3 * level
+        }
+    }
+    
+    var nextLevel: GameLevel {
+        var newLevel = self
+        newLevel.level++
+        return newLevel
+    }
+    
+    static var currentLevel: GameLevel? = {
+       return GameLevel(type: .Random, level: 0)
+    }()
+    
+    init(type: GameType, level: Int) {
+        (self.type, self.level) = (type, level)
+    }
+    
+    init(hashValue: Int) {
+        level = hashValue % 10
+        let base = hashValue - level
+        if base == 10 {
+            type = .Easy
+        } else  if base == 100 {
+            type = .Hard
+        } else {
+            type = .Random
+        }
+    }
+    
+    var hashValue: Int {
+        let base: Int
+        switch type {
+        case .Random:
+            base = 0
+        case .Easy:
+            base = 10
+        case .Hard:
+            base = 100
+        }
+        return base + level
+    }
+}
+
+func ==(lhs: GameLevel, rhs: GameLevel) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
 enum NodeType {
     case Dot
     case Road
@@ -38,6 +133,7 @@ func ==(lhs: NodeIndex, rhs: NodeIndex) -> Bool {
 }
 
 class TTDGame {
+    var previousData: [[NodeType]]?
     var gameData: [[NodeType]]
     var dotIndex: NodeIndex
     var lines: Int
@@ -52,7 +148,7 @@ class TTDGame {
         gameData = [[NodeType]](count: lines, repeatedValue: lineData)
     }
     
-    func initData(var policeCount: Int = 0) {
+    func initData(policeNumber: Int) {
         for (line, lineData) in gameData.enumerate() {
             for (column, _) in lineData.enumerate() {
                 gameData[line][column] = .Road
@@ -62,14 +158,8 @@ class TTDGame {
         dotIndex = NodeIndex(line: lines / 2, column: columns / 2)
         gameData[dotIndex.line][dotIndex.column] = .Dot
         
-        if policeCount == 0 {
-            policeCount = Int(arc4random_uniform(20)) + 5
-        } else if policeCount >= lines * columns {
-            policeCount = lines * columns - 1
-        }
-        
-        for i in 0..<policeCount {
-            let index = Int(arc4random_uniform(UInt32(lines * columns - 1 - i)))
+        for _ in 0..<policeNumber {
+            let index = Int(arc4random_uniform(UInt32(lines * columns)))
             var line = index / columns
             var column = index % columns
             while gameData[line][column] != .Road {

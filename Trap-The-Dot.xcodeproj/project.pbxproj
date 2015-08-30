@@ -17,6 +17,9 @@
 		53393A1C1B871ED000E15029 /* GameBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53393A1B1B871ED000E15029 /* GameBoardViewController.swift */; };
 		535B08BF1B8D643F00069BA2 /* TTDGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535B08BE1B8D643F00069BA2 /* TTDGame.swift */; };
 		535B08C11B8D74FF00069BA2 /* TTDGameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535B08C01B8D74FF00069BA2 /* TTDGameTest.swift */; };
+		535B08C61B8EE3FC00069BA2 /* LevelSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535B08C51B8EE3FC00069BA2 /* LevelSelectorView.swift */; };
+		536813AF1B902083002AE6DE /* Foundation+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536813AE1B902083002AE6DE /* Foundation+extensions.swift */; settings = {ASSET_TAGS = (); }; };
+		536813B11B9201EE002AE6DE /* LevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536813B01B9201EE002AE6DE /* LevelView.swift */; settings = {ASSET_TAGS = (); }; };
 		53DFF6771B87F800002ADD4A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF6761B87F800002ADD4A /* HomeViewController.swift */; };
 		53DFF6791B87F856002ADD4A /* UIViewController+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF6781B87F856002ADD4A /* UIViewController+extensions.swift */; };
 		53DFF67B1B87FA37002ADD4A /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF67A1B87FA37002ADD4A /* ResultViewController.swift */; };
@@ -60,6 +63,9 @@
 		53393A1B1B871ED000E15029 /* GameBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBoardViewController.swift; sourceTree = "<group>"; };
 		535B08BE1B8D643F00069BA2 /* TTDGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTDGame.swift; sourceTree = "<group>"; };
 		535B08C01B8D74FF00069BA2 /* TTDGameTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTDGameTest.swift; sourceTree = "<group>"; };
+		535B08C51B8EE3FC00069BA2 /* LevelSelectorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSelectorView.swift; sourceTree = "<group>"; };
+		536813AE1B902083002AE6DE /* Foundation+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Foundation+extensions.swift"; sourceTree = "<group>"; };
+		536813B01B9201EE002AE6DE /* LevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelView.swift; sourceTree = "<group>"; };
 		53DFF6761B87F800002ADD4A /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		53DFF6781B87F856002ADD4A /* UIViewController+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+extensions.swift"; sourceTree = "<group>"; };
 		53DFF67A1B87FA37002ADD4A /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
@@ -150,6 +156,9 @@
 				53DFF67C1B87FB4D002ADD4A /* UIView+extensions.swift */,
 				53DFF67E1B8805AC002ADD4A /* GameBoardView.swift */,
 				535B08BE1B8D643F00069BA2 /* TTDGame.swift */,
+				535B08C51B8EE3FC00069BA2 /* LevelSelectorView.swift */,
+				536813AE1B902083002AE6DE /* Foundation+extensions.swift */,
+				536813B01B9201EE002AE6DE /* LevelView.swift */,
 			);
 			path = "Trap-The-Dot";
 			sourceTree = "<group>";
@@ -356,14 +365,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				53DFF67D1B87FB4D002ADD4A /* UIView+extensions.swift in Sources */,
+				536813B11B9201EE002AE6DE /* LevelView.swift in Sources */,
 				53DFF6791B87F856002ADD4A /* UIViewController+extensions.swift in Sources */,
 				533939F01B87162300E15029 /* ViewController.swift in Sources */,
 				535B08BF1B8D643F00069BA2 /* TTDGame.swift in Sources */,
+				535B08C61B8EE3FC00069BA2 /* LevelSelectorView.swift in Sources */,
 				53DFF67F1B8805AC002ADD4A /* GameBoardView.swift in Sources */,
 				533939EE1B87162300E15029 /* AppDelegate.swift in Sources */,
 				53393A1C1B871ED000E15029 /* GameBoardViewController.swift in Sources */,
 				53DFF6771B87F800002ADD4A /* HomeViewController.swift in Sources */,
 				53DFF67B1B87FA37002ADD4A /* ResultViewController.swift in Sources */,
+				536813AF1B902083002AE6DE /* Foundation+extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
