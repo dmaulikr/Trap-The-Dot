@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     lazy var homeViewController: HomeViewController = HomeViewController()
     lazy var resultViewController: ResultViewController = ResultViewController()
     lazy var bannerView = ADBannerView(adType: ADAdType.Banner)
+    
+    var currentViewController: UIViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +35,7 @@ class ViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showResult:", name: "showResult", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "newGameWithLevel:", name: "newGameWithLevel", object: nil)
         
-        navigate(nil, to: gameViewController)
+        navigateTo(gameViewController)
     }
     
     func handleButtonClick(sender: UIButton) {
@@ -47,13 +49,14 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    func navigate(from: UIViewController?, to: UIViewController) {
-        from?.view.removeFromSuperview()
-        from?.removeFromParentViewController()
+    func navigateTo(viewController: UIViewController) {
+        currentViewController?.view.removeFromSuperview()
+        currentViewController?.removeFromParentViewController()
         
-        addChildViewController(to)
-        view.addSubview(to.view)
-        to.view.snp_makeConstraints { (make) -> Void in
+        addChildViewController(viewController)
+        currentViewController = viewController
+        view.addSubview(viewController.view)
+        viewController.view.snp_makeConstraints { (make) -> Void in
             make.leading.trailing.equalTo(self.view)
             make.top.equalTo(self.snp_topLayoutGuideBottom)
             make.bottom.equalTo(bannerView.snp_top)
@@ -64,12 +67,12 @@ class ViewController: UIViewController {
     }
     
     func onceMore(notification: NSNotification) {
-        navigate(resultViewController, to: gameViewController)
+        navigateTo(gameViewController)
         gameViewController.initGame()
     }
     
     func nextLevel(notification: NSNotification) {
-        navigate(resultViewController, to: gameViewController)
+        navigateTo(gameViewController)
         if let currentLevel = GameLevel.currentLevel {
             GameLevel.currentLevel = currentLevel.nextLevel
         }
@@ -77,13 +80,13 @@ class ViewController: UIViewController {
     }
     
     func gotoHome(notification: NSNotification) {
-        navigate(resultViewController, to: homeViewController)
+        navigateTo(homeViewController)
     }
     
     func newGameWithLevel(notification: NSNotification) {
         if let levelObject = notification.userInfo?["level"] as? Wrapper<GameLevel> {
             GameLevel.currentLevel = levelObject.wrappedValue
-            navigate(homeViewController, to: gameViewController)
+            navigateTo(gameViewController)
             gameViewController.initGame()
         }
     }
@@ -93,7 +96,7 @@ class ViewController: UIViewController {
             return
         }
         let result = userInfo["result"] as! Wrapper<Result>
-        navigate(gameViewController, to: resultViewController)
+        navigateTo(resultViewController)
         resultViewController.showResult(GameLevel.currentLevel!, result: result.wrappedValue, screenShot: userInfo["snapshot"] as? UIImage)
     }
 }

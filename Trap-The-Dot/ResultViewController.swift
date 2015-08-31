@@ -93,7 +93,7 @@ class ResultViewController: UIViewController {
         resultTitleLabel.text = result.title
         resultDescriptionLabel.text = result.message
         
-        if level.type == .Random {
+        if level.mode == .Random {
             if result == .Win {
                 buttonsStackView.addArrangedSubviews([ onceMoreButton, shareButton, commentButton, homeButton ])
             } else {

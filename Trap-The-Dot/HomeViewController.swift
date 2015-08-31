@@ -58,7 +58,7 @@ class HomeViewController: UIViewController {
         }
     }
     
-    func createModeView(mode: GameType, containerView: UIView) {
+    func createModeView(mode: GameMode, containerView: UIView) {
         let titleLabel = UILabel()
         titleLabel.text = mode.title
         containerView.addSubview(titleLabel)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum GameType {
+enum GameMode {
     case Random
     case Easy
     case Hard
@@ -27,17 +27,17 @@ enum GameType {
     var allLevels: [GameLevel] {
         switch self {
         case .Random:
-            return [GameLevel(type: .Random, level: 0)]
+            return [GameLevel(mode: .Random, level: 0)]
         case .Easy:
             var allLevels = [GameLevel]()
             for i in 0...4 {
-                allLevels.append(GameLevel(type: .Easy, level: i + 1))
+                allLevels.append(GameLevel(mode: .Easy, level: i + 1))
             }
             return allLevels
         case .Hard:
             var allLevels = [GameLevel]()
             for i in 0...4 {
-                allLevels.append(GameLevel(type: .Hard, level: i + 1))
+                allLevels.append(GameLevel(mode: .Hard, level: i + 1))
             }
             return allLevels
         }
@@ -45,11 +45,11 @@ enum GameType {
 }
 
 struct GameLevel: Hashable {
-    var type: GameType
+    var mode: GameMode
     var level: Int
     
     var policeNumber: Int {
-        switch type {
+        switch mode {
         case .Random:
             return Int(arc4random_uniform(20)) + 5
         case .Easy:
@@ -66,28 +66,28 @@ struct GameLevel: Hashable {
     }
     
     static var currentLevel: GameLevel? = {
-       return GameLevel(type: .Random, level: 0)
+       return GameLevel(mode: .Random, level: 0)
     }()
     
-    init(type: GameType, level: Int) {
-        (self.type, self.level) = (type, level)
+    init(mode: GameMode, level: Int) {
+        (self.mode, self.level) = (mode, level)
     }
     
     init(hashValue: Int) {
         level = hashValue % 10
         let base = hashValue - level
         if base == 10 {
-            type = .Easy
+            mode = .Easy
         } else  if base == 100 {
-            type = .Hard
+            mode = .Hard
         } else {
-            type = .Random
+            mode = .Random
         }
     }
     
     var hashValue: Int {
         let base: Int
-        switch type {
+        switch mode {
         case .Random:
             base = 0
         case .Easy:
@@ -109,7 +109,7 @@ enum NodeType {
     case Police
 }
 
-struct NodeIndex: CustomStringConvertible, Equatable {
+struct NodePosition: CustomStringConvertible, Equatable {
     var line: Int
     var column: Int
     
@@ -117,33 +117,33 @@ struct NodeIndex: CustomStringConvertible, Equatable {
         return "line: \(line), column: \(column)"
     }
     
-    var roundNodeIndexs: [NodeIndex] {
-        let left = NodeIndex(line: line, column: column - 1)
-        let topLeft = NodeIndex(line: line - 1, column: column - (line + 1) % 2)
-        let topRight = NodeIndex(line: line - 1, column: column + line % 2)
-        let right = NodeIndex(line: line, column: column + 1)
-        let bottomRight = NodeIndex(line: line + 1, column: column + line % 2)
-        let bottomLeft = NodeIndex(line: line + 1, column: column - (line + 1) % 2)
+    var roundNodePositions: [NodePosition] {
+        let left = NodePosition(line: line, column: column - 1)
+        let topLeft = NodePosition(line: line - 1, column: column - (line + 1) % 2)
+        let topRight = NodePosition(line: line - 1, column: column + line % 2)
+        let right = NodePosition(line: line, column: column + 1)
+        let bottomRight = NodePosition(line: line + 1, column: column + line % 2)
+        let bottomLeft = NodePosition(line: line + 1, column: column - (line + 1) % 2)
         return [left, topLeft, topRight, right, bottomRight, bottomLeft]
     }
 }
 
-func ==(lhs: NodeIndex, rhs: NodeIndex) -> Bool {
+func ==(lhs: NodePosition, rhs: NodePosition) -> Bool {
     return lhs.line == rhs.line && lhs.column == rhs.column
 }
 
 class TTDGame {
     var previousData: [[NodeType]]?
     var gameData: [[NodeType]]
-    var dotIndex: NodeIndex
+    var dotPosition: NodePosition
     var lines: Int
     var columns: Int
-    var reachablePolices: [NodeIndex]
+    var reachablePolices: [NodePosition]
     
     init(lines: Int, columns: Int) {
         (self.lines, self.columns) = (lines, columns)
-        dotIndex = NodeIndex(line: lines / 2, column: columns / 2)
-        reachablePolices = [NodeIndex]()
+        dotPosition = NodePosition(line: lines / 2, column: columns / 2)
+        reachablePolices = [NodePosition]()
         let lineData = [NodeType](count: columns, repeatedValue: .Road)
         gameData = [[NodeType]](count: lines, repeatedValue: lineData)
     }
@@ -155,13 +155,13 @@ class TTDGame {
             }
         }
         
-        dotIndex = NodeIndex(line: lines / 2, column: columns / 2)
-        gameData[dotIndex.line][dotIndex.column] = .Dot
+        dotPosition = NodePosition(line: lines / 2, column: columns / 2)
+        gameData[dotPosition.line][dotPosition.column] = .Dot
         
         for _ in 0..<policeNumber {
-            let index = Int(arc4random_uniform(UInt32(lines * columns)))
-            var line = index / columns
-            var column = index % columns
+            let position = Int(arc4random_uniform(UInt32(lines * columns)))
+            var line = position / columns
+            var column = position % columns
             while gameData[line][column] != .Road {
                 column += 1
                 if column >= columns {
@@ -177,36 +177,36 @@ class TTDGame {
         }
     }
     
-    func checkIndexValid(index: NodeIndex) -> Bool {
-        if index.line >= 0 && index.column >= 0 && gameData.count > index.line && gameData[0].count > index.column {
+    func checkPositionValid(position: NodePosition) -> Bool {
+        if position.line >= 0 && position.column >= 0 && gameData.count > position.line && gameData[0].count > position.column {
             return true
         }
         return false
     }
     
-    func searchNext() -> NodeIndex? {
-        var queue = [NodeIndex]()
-        var nextIndexs = [[NodeIndex]]()
+    func searchNext() -> NodePosition? {
+        var queue = [NodePosition]()
+        var nextPositions = [[NodePosition]]()
         var hasUsed = [[Bool]]()
         reachablePolices.removeAll()
         
         for line in gameData {
             var usedLine = [Bool]()
-            var lineNextIndex = [NodeIndex]()
+            var lineNextPosition = [NodePosition]()
             for _ in line {
                 usedLine.append(false)
-                lineNextIndex.append(dotIndex)
+                lineNextPosition.append(dotPosition)
             }
             hasUsed.append(usedLine)
-            nextIndexs.append(lineNextIndex)
+            nextPositions.append(lineNextPosition)
         }
         
-        let randomSort = { (a: [NodeIndex]) -> [NodeIndex] in
+        let randomSort = { (a: [NodePosition]) -> [NodePosition] in
             guard a.count > 0 else {
                 return a
             }
             let s = Int(arc4random_uniform(UInt32(a.count)))
-            var newArray = [NodeIndex]()
+            var newArray = [NodePosition]()
             for i in a[s..<a.count] {
                 newArray.append(i)
             }
@@ -216,34 +216,34 @@ class TTDGame {
             return newArray
         }
         
-        var nextIndex: NodeIndex?
+        var nextPosition: NodePosition?
         
-        let roundIndexs = randomSort(dotIndex.roundNodeIndexs)
-        for i in roundIndexs {
-            if !checkIndexValid(i) {
+        let roundPositions = randomSort(dotPosition.roundNodePositions)
+        for i in roundPositions {
+            if !checkPositionValid(i) {
                 return i
             }
             if gameData[i.line][i.column] == NodeType.Road {
                 queue.append(i)
                 hasUsed[i.line][i.column] = true
-                nextIndexs[i.line][i.column] = i
+                nextPositions[i.line][i.column] = i
             } else if gameData[i.line][i.column] == .Police {
                 reachablePolices.append(i)
                 hasUsed[i.line][i.column] = true
             }
         }
         
-        while let index = queue.first where nextIndex == nil {
-            let roundIndexs = randomSort(index.roundNodeIndexs)
-            for i in roundIndexs {
-                if !checkIndexValid(i) {
-                    nextIndex = nextIndexs[index.line][index.column]
+        while let position = queue.first where nextPosition == nil {
+            let roundPositions = randomSort(position.roundNodePositions)
+            for i in roundPositions {
+                if !checkPositionValid(i) {
+                    nextPosition = nextPositions[position.line][position.column]
                     break
                 }
                 if !hasUsed[i.line][i.column] {
                     if gameData[i.line][i.column] == .Road {
                         queue.append(i)
-                        nextIndexs[i.line][i.column] = nextIndexs[index.line][index.column]
+                        nextPositions[i.line][i.column] = nextPositions[position.line][position.column]
                     } else if gameData[i.line][i.column] == .Police {
                         reachablePolices.append(i)
                     }
@@ -252,44 +252,44 @@ class TTDGame {
             }
             queue.removeFirst()
         }
-        return nextIndex
+        return nextPosition
     }
     
-    func getCircleSortedPolices() -> [NodeIndex]? {
+    func getCircleSortedPolices() -> [NodePosition]? {
         let lineIsInCircle = Array<Bool>(count: gameData[0].count, repeatedValue: false)
         var hasInCircle = Array<[Bool]>(count: gameData.count, repeatedValue: lineIsInCircle)
         
         var count = 0
         hasInCircle[reachablePolices[0].line][reachablePolices[0].column] = true
         while count < reachablePolices.count {
-            let policeNodeIndex = reachablePolices[count]
+            let policeNodePosition = reachablePolices[count]
             var hasNext = false
-            let roundNodeIndexs = policeNodeIndex.roundNodeIndexs
-            for roundNodeIndex in roundNodeIndexs {
-                if let indexInPolices = reachablePolices.indexOf(roundNodeIndex)?.value {
+            let roundNodePositions = policeNodePosition.roundNodePositions
+            for roundNodePosition in roundNodePositions {
+                if let indexInPolices = reachablePolices.indexOf(roundNodePosition)?.value {
                     let indexInPolices = Int(indexInPolices)
                     if indexInPolices <= count - 5 { // circle perhaps found
                         var (hasTop, hasBottom, hasLeft, hasRight) = (false, false, false, false)
-                        for index in reachablePolices[indexInPolices...count] {
-                            if (index.line == dotIndex.line && index.column < dotIndex.column) {
+                        for position in reachablePolices[indexInPolices...count] {
+                            if (position.line == dotPosition.line && position.column < dotPosition.column) {
                                 hasLeft = true
-                            } else if (index.line == dotIndex.line && index.column > dotIndex.column) {
+                            } else if (position.line == dotPosition.line && position.column > dotPosition.column) {
                                 hasRight = true
-                            }  else if (index.line < dotIndex.line && index.column == dotIndex.column) {
+                            }  else if (position.line < dotPosition.line && position.column == dotPosition.column) {
                                 hasTop = true
-                            }  else if (index.line > dotIndex.line && index.column == dotIndex.column) {
+                            }  else if (position.line > dotPosition.line && position.column == dotPosition.column) {
                                 hasBottom = true
                             }
                         }
                         if hasTop && hasBottom && hasLeft && hasRight {
                             return Array(reachablePolices[indexInPolices...count])
                         } else {
-                            hasInCircle[roundNodeIndex.line][roundNodeIndex.column] = true
+                            hasInCircle[roundNodePosition.line][roundNodePosition.column] = true
                         }
                     } else if indexInPolices >= count + 1 {
                         reachablePolices[indexInPolices] = reachablePolices[count + 1]
-                        reachablePolices[count + 1] = roundNodeIndex
-                        hasInCircle[roundNodeIndex.line][roundNodeIndex.column] = true
+                        reachablePolices[count + 1] = roundNodePosition
+                        hasInCircle[roundNodePosition.line][roundNodePosition.column] = true
                         hasNext = true
                         count += 1
                         break
@@ -301,15 +301,15 @@ class TTDGame {
                 var top = count
                 while (top > 0) {
                     top -= 1;
-                    let topNodeIndex = reachablePolices[top]
-                    let roundNodeIndexs = topNodeIndex.roundNodeIndexs
-                    for roundNodeIndex in roundNodeIndexs {
-                        if let indexInPolices = reachablePolices.indexOf(roundNodeIndex)?.value {
+                    let topNodePosition = reachablePolices[top]
+                    let roundNodePositions = topNodePosition.roundNodePositions
+                    for roundNodePosition in roundNodePositions {
+                        if let indexInPolices = reachablePolices.indexOf(roundNodePosition)?.value {
                             let indexInPolices = Int(indexInPolices)
-                            if !hasInCircle[roundNodeIndex.line][roundNodeIndex.column] {
+                            if !hasInCircle[roundNodePosition.line][roundNodePosition.column] {
                                 reachablePolices[indexInPolices] = reachablePolices[top + 1]
-                                reachablePolices[top + 1] = roundNodeIndex
-                                hasInCircle[roundNodeIndex.line][roundNodeIndex.column] = true
+                                reachablePolices[top + 1] = roundNodePosition
+                                hasInCircle[roundNodePosition.line][roundNodePosition.column] = true
                                 isDeathRoad = false
                                 break
                             }

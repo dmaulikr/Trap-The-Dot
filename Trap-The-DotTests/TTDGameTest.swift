@@ -47,7 +47,7 @@ class TTDGameTest: XCTestCase {
     func testInitData() {
         game.initData(10)
         
-        XCTAssertEqual(game.dotIndex, NodeIndex(line: 4, column: 4))
+        XCTAssertEqual(game.dotPosition, NodePosition(line: 4, column: 4))
         
         var (dotNum, roadNum, policeNum) = (0, 0, 0)
         for lineData in game.gameData {
@@ -67,14 +67,14 @@ class TTDGameTest: XCTestCase {
         XCTAssertEqual(policeNum, 10, "police number should be 10")
     }
     
-    func testCheckIndexValid() {
-        XCTAssertFalse(game.checkIndexValid(NodeIndex(line: 10, column: 8)), "(line: 9, column: 8) should be invaild")
-        XCTAssertFalse(game.checkIndexValid(NodeIndex(line: 0, column: -1)), "(line: 0, column: -1) should be invaild")
-        XCTAssertTrue(game.checkIndexValid(NodeIndex(line: 0, column: 0)), "(line: 0, column: 0) should be vaild")
-        XCTAssertTrue(game.checkIndexValid(NodeIndex(line: 8, column: 8)), "(line: 8, column: 8) should be vaild")
+    func testcheckPositionValid() {
+        XCTAssertFalse(game.checkPositionValid(NodePosition(line: 10, column: 8)), "(line: 9, column: 8) should be invaild")
+        XCTAssertFalse(game.checkPositionValid(NodePosition(line: 0, column: -1)), "(line: 0, column: -1) should be invaild")
+        XCTAssertTrue(game.checkPositionValid(NodePosition(line: 0, column: 0)), "(line: 0, column: 0) should be vaild")
+        XCTAssertTrue(game.checkPositionValid(NodePosition(line: 8, column: 8)), "(line: 8, column: 8) should be vaild")
     }
     
-    func testSearchNextShouldReturnTheRightNextIndex() {
+    func testSearchNextShouldReturnTheRightNextPosition() {
         game.gameData = [
             [.Police, .Police, .Police, .Police, .Road  , .Police, .Police, .Police, .Police],
             [.Police, .Road  , .Road  , .Road  , .Road  , .Police, .Police, .Police, .Police],
@@ -86,11 +86,11 @@ class TTDGameTest: XCTestCase {
             [.Police, .Road  , .Road  , .Road  , .Road  , .Road  , .Police, .Police, .Police],
             [.Police, .Police, .Police, .Police, .Police, .Police, .Police, .Police, .Police],
         ]
-        game.dotIndex = NodeIndex(line: 3, column: 4)
-        if let nextIndex = game.searchNext() {
-            XCTAssertEqual(nextIndex, NodeIndex(line: 2, column: 5))
+        game.dotPosition = NodePosition(line: 3, column: 4)
+        if let nextPosition = game.searchNext() {
+            XCTAssertEqual(nextPosition, NodePosition(line: 2, column: 5))
         } else {
-            XCTFail("searchNext not return the nextIndex")
+            XCTFail("searchNext not return the nextPosition")
         }
     }
     
@@ -106,9 +106,9 @@ class TTDGameTest: XCTestCase {
             [.Police, .Road  , .Road  , .Road  , .Road  , .Road  , .Police, .Police, .Police],
             [.Police, .Police, .Police, .Police, .Police, .Police, .Police, .Police, .Police],
         ]
-        game.dotIndex = NodeIndex(line: 3, column: 4)
-        let nextIndex = game.searchNext()
-        XCTAssertEqual(nextIndex, nil)
+        game.dotPosition = NodePosition(line: 3, column: 4)
+        let nextPosition = game.searchNext()
+        XCTAssertEqual(nextPosition, nil)
     }
     
     func testGetCircleSortedPolices() {
@@ -123,87 +123,87 @@ class TTDGameTest: XCTestCase {
                 [.Police, .Road  , .Road  , .Road  , .Road  , .Road  , .Police, .Police, .Police],
             [.Police, .Police, .Police, .Police, .Police, .Police, .Police, .Police, .Police],
         ]
-        game.dotIndex = NodeIndex(line: 3, column: 4)
+        game.dotPosition = NodePosition(line: 3, column: 4)
         game.reachablePolices = [
-            NodeIndex(line: 5, column: 2),
-            NodeIndex(line: 5, column: 3),
-            NodeIndex(line: 5, column: 4),
-            NodeIndex(line: 0, column: 1),
-            NodeIndex(line: 0, column: 2),
-            NodeIndex(line: 1, column: 0),
-            NodeIndex(line: 7, column: 0),
-            NodeIndex(line: 2, column: 0),
-            NodeIndex(line: 3, column: 0),
-            NodeIndex(line: 4, column: 0),
-            NodeIndex(line: 0, column: 3),
-            NodeIndex(line: 0, column: 4),
-            NodeIndex(line: 2, column: 2),
-            NodeIndex(line: 2, column: 4),
-            NodeIndex(line: 1, column: 4),
-            NodeIndex(line: 1, column: 5),
-            NodeIndex(line: 2, column: 6),
-            NodeIndex(line: 2, column: 7),
-            NodeIndex(line: 2, column: 8),
-            NodeIndex(line: 3, column: 2),
-            NodeIndex(line: 3, column: 8),
-            NodeIndex(line: 4, column: 2),
-            NodeIndex(line: 4, column: 6),
-            NodeIndex(line: 4, column: 7),
-            NodeIndex(line: 4, column: 8),
-            NodeIndex(line: 5, column: 0),
-            NodeIndex(line: 5, column: 6),
-            NodeIndex(line: 6, column: 0),
-            NodeIndex(line: 6, column: 2),
-            NodeIndex(line: 6, column: 3),
-            NodeIndex(line: 6, column: 4),
-            NodeIndex(line: 6, column: 6),
-            NodeIndex(line: 7, column: 6),
-            NodeIndex(line: 8, column: 1),
-            NodeIndex(line: 8, column: 2),
-            NodeIndex(line: 8, column: 3),
-            NodeIndex(line: 8, column: 4),
-            NodeIndex(line: 8, column: 5),
-            NodeIndex(line: 8, column: 6),
+            NodePosition(line: 5, column: 2),
+            NodePosition(line: 5, column: 3),
+            NodePosition(line: 5, column: 4),
+            NodePosition(line: 0, column: 1),
+            NodePosition(line: 0, column: 2),
+            NodePosition(line: 1, column: 0),
+            NodePosition(line: 7, column: 0),
+            NodePosition(line: 2, column: 0),
+            NodePosition(line: 3, column: 0),
+            NodePosition(line: 4, column: 0),
+            NodePosition(line: 0, column: 3),
+            NodePosition(line: 0, column: 4),
+            NodePosition(line: 2, column: 2),
+            NodePosition(line: 2, column: 4),
+            NodePosition(line: 1, column: 4),
+            NodePosition(line: 1, column: 5),
+            NodePosition(line: 2, column: 6),
+            NodePosition(line: 2, column: 7),
+            NodePosition(line: 2, column: 8),
+            NodePosition(line: 3, column: 2),
+            NodePosition(line: 3, column: 8),
+            NodePosition(line: 4, column: 2),
+            NodePosition(line: 4, column: 6),
+            NodePosition(line: 4, column: 7),
+            NodePosition(line: 4, column: 8),
+            NodePosition(line: 5, column: 0),
+            NodePosition(line: 5, column: 6),
+            NodePosition(line: 6, column: 0),
+            NodePosition(line: 6, column: 2),
+            NodePosition(line: 6, column: 3),
+            NodePosition(line: 6, column: 4),
+            NodePosition(line: 6, column: 6),
+            NodePosition(line: 7, column: 6),
+            NodePosition(line: 8, column: 1),
+            NodePosition(line: 8, column: 2),
+            NodePosition(line: 8, column: 3),
+            NodePosition(line: 8, column: 4),
+            NodePosition(line: 8, column: 5),
+            NodePosition(line: 8, column: 6),
         ]
         let result = [
-            NodeIndex(line: 0, column: 1),
-            NodeIndex(line: 0, column: 2),
-            NodeIndex(line: 0, column: 3),
-            NodeIndex(line: 0, column: 4),
-            NodeIndex(line: 1, column: 4),
-            NodeIndex(line: 1, column: 5),
-            NodeIndex(line: 2, column: 6),
-            NodeIndex(line: 2, column: 7),
-            NodeIndex(line: 2, column: 8),
-            NodeIndex(line: 3, column: 8),
-            NodeIndex(line: 4, column: 8),
-            NodeIndex(line: 4, column: 7),
-            NodeIndex(line: 4, column: 6),
-            NodeIndex(line: 5, column: 6),
-            NodeIndex(line: 6, column: 6),
-            NodeIndex(line: 7, column: 6),
-            NodeIndex(line: 8, column: 6),
-            NodeIndex(line: 8, column: 5),
-            NodeIndex(line: 8, column: 4),
-            NodeIndex(line: 8, column: 3),
-            NodeIndex(line: 8, column: 2),
-            NodeIndex(line: 8, column: 1),
-            NodeIndex(line: 7, column: 0),
-            NodeIndex(line: 6, column: 0),
-            NodeIndex(line: 5, column: 0),
-            NodeIndex(line: 4, column: 0),
-            NodeIndex(line: 3, column: 0),
-            NodeIndex(line: 2, column: 0),
-            NodeIndex(line: 1, column: 0),
+            NodePosition(line: 0, column: 1),
+            NodePosition(line: 0, column: 2),
+            NodePosition(line: 0, column: 3),
+            NodePosition(line: 0, column: 4),
+            NodePosition(line: 1, column: 4),
+            NodePosition(line: 1, column: 5),
+            NodePosition(line: 2, column: 6),
+            NodePosition(line: 2, column: 7),
+            NodePosition(line: 2, column: 8),
+            NodePosition(line: 3, column: 8),
+            NodePosition(line: 4, column: 8),
+            NodePosition(line: 4, column: 7),
+            NodePosition(line: 4, column: 6),
+            NodePosition(line: 5, column: 6),
+            NodePosition(line: 6, column: 6),
+            NodePosition(line: 7, column: 6),
+            NodePosition(line: 8, column: 6),
+            NodePosition(line: 8, column: 5),
+            NodePosition(line: 8, column: 4),
+            NodePosition(line: 8, column: 3),
+            NodePosition(line: 8, column: 2),
+            NodePosition(line: 8, column: 1),
+            NodePosition(line: 7, column: 0),
+            NodePosition(line: 6, column: 0),
+            NodePosition(line: 5, column: 0),
+            NodePosition(line: 4, column: 0),
+            NodePosition(line: 3, column: 0),
+            NodePosition(line: 2, column: 0),
+            NodePosition(line: 1, column: 0),
         ]
-        if let circleIndexes = game.getCircleSortedPolices() {
-            if let firstIndex = result.indexOf(circleIndexes[0])?.value {
-                let firstIndex = Int(firstIndex)
-                for (i, index) in result[firstIndex..<result.count].enumerate() {
-                    XCTAssertEqual(index, circleIndexes[i], "the \(i + firstIndex)th not right")
+        if let circlePositions = game.getCircleSortedPolices() {
+            if let firstPosition = result.indexOf(circlePositions[0])?.value {
+                let firstPosition = Int(firstPosition)
+                for (i, position) in result[firstPosition..<result.count].enumerate() {
+                    XCTAssertEqual(position, circlePositions[i], "the \(i + firstPosition)th not right")
                 }
-                for (i, index) in result[0..<firstIndex].enumerate() {
-                    XCTAssertEqual(index, circleIndexes[result.count - firstIndex + i], "the \(result.count - firstIndex + i)th not right")
+                for (i, position) in result[0..<firstPosition].enumerate() {
+                    XCTAssertEqual(position, circlePositions[result.count - firstPosition + i], "the \(result.count - firstPosition + i)th not right")
                 }
             } else {
                 XCTFail("the first node not in the result")

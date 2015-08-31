@@ -48,7 +48,7 @@ class GameBoardView: UIView {
         for (line, lineData) in data.enumerate() {
             var lineLayers = [CALayer]()
             for (column, type) in lineData.enumerate() {
-                let layer = nodeLayerForIndex(NodeIndex(line: line, column: column), type: type)
+                let layer = nodeLayerForIndex(NodePosition(line: line, column: column), type: type)
                 self.layer.addSublayer(layer)
                 lineLayers.append(layer)
             }
@@ -57,12 +57,12 @@ class GameBoardView: UIView {
         layoutNodeLayers()
     }
     
-    func nodeLayerForIndex(index: NodeIndex, type: NodeType) -> CALayer {
+    func nodeLayerForIndex(position: NodePosition, type: NodeType) -> CALayer {
         let layer = CALayer()
         layer.borderWidth = 3
         layer.backgroundColor = type.color
 //        let textLayer = CATextLayer()
-//        textLayer.string = "\(index.line), \(index.column)"
+//        textLayer.string = "\(position.line), \(position.column)"
 //        textLayer.alignmentMode = kCAAlignmentCenter
 //        textLayer.foregroundColor = UIColor.whiteColor().CGColor
 //        textLayer.font = UIFont.systemFontOfSize(20)
@@ -89,24 +89,24 @@ class GameBoardView: UIView {
         }
     }
     
-    func indexOfPosition(position: CGPoint) -> NodeIndex? {
+    func indexOfPosition(position: CGPoint) -> NodePosition? {
         for (line, lineLayers) in layers.enumerate() {
             for (column, layer) in lineLayers.enumerate() {
                 let point = self.layer.convertPoint(position, toLayer: layer)
                 if point.x >= 0 && point.y >= 0 && point.x < nodeWidth && point.y < nodeWidth {
-                    return NodeIndex(line: line, column: column)
+                    return NodePosition(line: line, column: column)
                 }
             }
         }
         return nil
     }
     
-    func changeIndexToType(index: NodeIndex, type: NodeType) {
-        guard checkIndexValid(index) else {
+    func changeIndexToType(position: NodePosition, type: NodeType) {
+        guard checkPositionValid(position) else {
             return
         }
         
-        let layer = layers[index.line][index.column]
+        let layer = layers[position.line][position.column]
         let animation = CABasicAnimation(keyPath: "backgroundColor")
         animation.fromValue = layer.backgroundColor
         animation.toValue = type.color
@@ -116,18 +116,18 @@ class GameBoardView: UIView {
         layer.addAnimation(animation, forKey: "backgroundColor")
     }
     
-    func copyDotLayer(dotIndex: NodeIndex) -> CALayer {
+    func copyDotLayer(dotposition: NodePosition) -> CALayer {
         let dotLayer = CALayer()
         dotLayer.backgroundColor = NodeType.Dot.color
-        dotLayer.frame = layers[dotIndex.line][dotIndex.column].frame
+        dotLayer.frame = layers[dotposition.line][dotposition.column].frame
         dotLayer.borderWidth = 3
         dotLayer.cornerRadius = nodeWidth / 2
         dotLayer.borderColor = (backgroundColor ?? UIColor.lightGrayColor()).CGColor
         return dotLayer
     }
     
-    func moveDotFrom(from: NodeIndex, toIndex to: NodeIndex, game: TTDGame) {
-        guard checkIndexValid(from) && checkIndexValid(to) else {
+    func moveDotFrom(from: NodePosition, toIndex to: NodePosition, game: TTDGame) {
+        guard checkPositionValid(from) && checkPositionValid(to) else {
             return
         }
         
@@ -147,7 +147,7 @@ class GameBoardView: UIView {
         animation.removedOnCompletion = false
         animation.fillMode = kCAFillModeForwards
         CATransaction.setCompletionBlock { () -> Void in
-            if game.dotIndex == to {
+            if game.dotPosition == to {
                 self.layers[to.line][to.column].backgroundColor = NodeType.Dot.color
             }
             copyedDotLayer.removeFromSuperlayer()
@@ -156,13 +156,13 @@ class GameBoardView: UIView {
         CATransaction.commit()
     }
     
-    func linkCirclePolices(indexes: [NodeIndex]) {
+    func linkCirclePolices(positions: [NodePosition]) {
         let path = CGPathCreateMutable()
-        if let first = indexes.first {
+        if let first = positions.first {
             let firstLayer = layers[first.line][first.column]
             CGPathMoveToPoint(path, nil, firstLayer.position.x, firstLayer.position.y)
-            for index in indexes[1..<indexes.count] {
-                let layer = layers[index.line][index.column]
+            for position in positions[1..<positions.count] {
+                let layer = layers[position.line][position.column]
                 CGPathAddLineToPoint(path, nil, layer.position.x, layer.position.y)
             }
             CGPathAddLineToPoint(path, nil, firstLayer.position.x, firstLayer.position.y)
@@ -177,7 +177,7 @@ class GameBoardView: UIView {
         }
     }
     
-    func dotEscapeTo(index: NodeIndex, from: NodeIndex, complete: ()->()) {
+    func dotEscapeTo(position: NodePosition, from: NodePosition, complete: ()->()) {
         let copyedDotLayer = copyDotLayer(from)
         self.layer.addSublayer(copyedDotLayer)
         layers[from.line][from.column].backgroundColor =  NodeType.Road.color
@@ -191,9 +191,9 @@ class GameBoardView: UIView {
             transition.removedOnCompletion = true
             transition.fillMode = kCAFillModeForwards
             
-            if (index.line < 0) { transition.subtype = kCATransitionFromTop }
-            else if (index.line >= self.layers.count) { transition.subtype = kCATransitionFromBottom }
-            else if (index.column < 0) { transition.subtype = kCATransitionFromRight }
+            if (position.line < 0) { transition.subtype = kCATransitionFromTop }
+            else if (position.line >= self.layers.count) { transition.subtype = kCATransitionFromBottom }
+            else if (position.column < 0) { transition.subtype = kCATransitionFromRight }
             else { transition.subtype = kCATransitionFromLeft }
             
             CATransaction.setCompletionBlock { () -> Void in
@@ -219,16 +219,16 @@ class GameBoardView: UIView {
         }
     }
     
-    func checkIndexValid(index: NodeIndex) -> Bool {
-        if index.line >= 0 && index.column >= 0 && layers.count > index.line && layers[0].count > index.column {
+    func checkPositionValid(position: NodePosition) -> Bool {
+        if position.line >= 0 && position.column >= 0 && layers.count > position.line && layers[0].count > position.column {
             return true
         }
         return false
     }
     
-    func originOfIndex(index: NodeIndex) -> CGPoint {
-        let xPos = (CGFloat(index.line % 2) * 0.5 + CGFloat(index.column)) * nodeWidth
-        let yPos = nodeHeightWidthRatio * CGFloat(index.line) * nodeWidth
+    func originOfIndex(position: NodePosition) -> CGPoint {
+        let xPos = (CGFloat(position.line % 2) * 0.5 + CGFloat(position.column)) * nodeWidth
+        let yPos = nodeHeightWidthRatio * CGFloat(position.line) * nodeWidth
         return CGPoint(x: xPos, y: yPos)
     }
 }

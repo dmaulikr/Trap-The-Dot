@@ -10,7 +10,7 @@ import UIKit
 
 class LevelView: UIView {
     
-    var level = GameLevel(type: .Random, level: 0)
+    var level = GameLevel(mode: .Random, level: 0)
     var minSteps: Int = -1
     
     var titleLayer: CATextLayer?

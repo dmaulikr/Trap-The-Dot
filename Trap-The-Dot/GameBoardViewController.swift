@@ -21,7 +21,7 @@ class GameBoardViewController: UIViewController {
     let gameColumns = 9
     var game: TTDGame!
     
-    private var reachablePolices = [NodeIndex]()
+    private var reachablePolices = [NodePosition]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,7 +95,7 @@ class GameBoardViewController: UIViewController {
         let position = recognizer.locationInView(gameBoardView)
         
         if let index = gameBoardView.indexOfPosition(position) {
-            if game.checkIndexValid(index) {
+            if game.checkPositionValid(index) {
                 if game.gameData[index.line][index.column] == NodeType.Road {
                     game.gameData[index.line][index.column] = .Police
                     trapAt(index)
@@ -104,17 +104,17 @@ class GameBoardViewController: UIViewController {
         }
     }
     
-    func trapAt(index: NodeIndex) {
-        gameBoardView.changeIndexToType(index, type: .Police)
-        if let nextIndex = game.searchNext() {
-            if game.checkIndexValid(nextIndex) {
-                game.gameData[game.dotIndex.line][game.dotIndex.column] = .Road
-                game.gameData[nextIndex.line][nextIndex.column] = .Dot
-                gameBoardView.moveDotFrom(game.dotIndex, toIndex: nextIndex, game: game)
-                game.dotIndex = nextIndex
+    func trapAt(position: NodePosition) {
+        gameBoardView.changeIndexToType(position, type: .Police)
+        if let nextPosition = game.searchNext() {
+            if game.checkPositionValid(nextPosition) {
+                game.gameData[game.dotPosition.line][game.dotPosition.column] = .Road
+                game.gameData[nextPosition.line][nextPosition.column] = .Dot
+                gameBoardView.moveDotFrom(game.dotPosition, toIndex: nextPosition, game: game)
+                game.dotPosition = nextPosition
                 return
             } else {
-                gameBoardView.dotEscapeTo(nextIndex, from: game.dotIndex) {
+                gameBoardView.dotEscapeTo(nextPosition, from: game.dotPosition) {
                     self.showResult(.Fail)
                 }
                 return
