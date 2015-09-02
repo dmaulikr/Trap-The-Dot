@@ -19,7 +19,7 @@ class LevelView: UIView {
     override func drawRect(rect: CGRect) {
         if smallRectLayer == nil {
             smallRectLayer = CAShapeLayer()
-            smallRectLayer!.strokeColor = UIColor.orangeColor().CGColor
+            smallRectLayer!.strokeColor = Theme.currentTheme.primaryColor.CGColor
             smallRectLayer!.lineWidth = 2
             smallRectLayer!.lineCap = kCALineCapRound
             smallRectLayer!.lineJoin = kCALineJoinRound
@@ -45,7 +45,7 @@ class LevelView: UIView {
         }
         titleLayer!.string = minSteps > 0 ? "\(minSteps)" : "?"
         
-        layer.borderColor = UIColor.orangeColor().CGColor
+        layer.borderColor = Theme.currentTheme.primaryColor.CGColor
         layer.borderWidth = 2
         layer.cornerRadius = 8
         layer.masksToBounds = true

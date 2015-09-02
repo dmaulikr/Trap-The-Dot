@@ -13,7 +13,8 @@ extension UIViewController {
     func addTTDTitle() -> UILabel {
         let titleLabel = UILabel()
         titleLabel.text = "围住点点"
-        titleLabel.font = UIFont.systemFontOfSize(32, weight: UIFontWeightSemibold)
+        titleLabel.textColor = Theme.currentTheme.secondaryColor
+        titleLabel.font = UIFont.boldSystemFontOfSize(32)
         
         view.addSubview(titleLabel)
         titleLabel.snp_makeConstraints { (make) -> Void in

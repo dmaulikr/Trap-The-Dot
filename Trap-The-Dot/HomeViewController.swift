@@ -25,9 +25,6 @@ class HomeViewController: UIViewController {
         createModeView(.Random, containerView: randomView)
         createModeView(.Easy, containerView: easyView)
         createModeView(.Hard, containerView: hardView)
-        randomView.backgroundColor = UIColor(red: 0.8, green: 0.9, blue: 1.0, alpha: 1)
-        easyView.backgroundColor = UIColor(red: 0.6, green: 0.8, blue: 1.0, alpha: 1)
-        hardView.backgroundColor = UIColor(red: 0.4, green: 0.6, blue: 0.8, alpha: 1)
         
         randomView.snp_makeConstraints { (make) -> Void in
             make.leading.trailing.equalTo(view)
@@ -62,37 +59,64 @@ class HomeViewController: UIViewController {
         let titleLabel = UILabel()
         titleLabel.text = mode.title
         containerView.addSubview(titleLabel)
-        
-        let levelContainerStackView = UIStackView()
-        levelContainerStackView.alignment = UIStackViewAlignment.Center
-        levelContainerStackView.axis = UILayoutConstraintAxis.Horizontal
-        levelContainerStackView.distribution = UIStackViewDistribution.EqualSpacing
-        containerView.addSubview(levelContainerStackView)
-        
-        
-        for level in mode.allLevels {
+        let levelContainerView: UIView
+        let createLevelView = { (level: GameLevel) -> LevelView in
             let levelView = LevelView()
+            levelView.backgroundColor = Theme.currentTheme.secondaryColor
             levelView.level = level
             levelView.minSteps = -1
             levelView.tag = level.hashValue
             let tapGesture = UITapGestureRecognizer(target: self, action: "tapAtLevel:")
             levelView.addGestureRecognizer(tapGesture)
-            levelContainerStackView.addArrangedSubview(levelView)
-            levelView.snp_makeConstraints(closure: { (make) -> Void in
-                make.width.lessThanOrEqualTo(levelContainerStackView.snp_width).multipliedBy(0.2).offset(13)
-                make.bottomMargin.topMargin.equalTo(levelContainerStackView).priority(700)
-                make.width.equalTo(levelView.snp_height).priority(750)
-            })
+            return levelView
+        }
+        
+        if #available(iOS 9, *) {
+            let allLevels = mode.allLevels
+            if allLevels.count > 1 {
+                let levelContainerStackView = UIStackView()
+                levelContainerStackView.alignment = UIStackViewAlignment.Center
+                levelContainerStackView.axis = UILayoutConstraintAxis.Horizontal
+                levelContainerStackView.distribution = UIStackViewDistribution.EqualSpacing
+                containerView.addSubview(levelContainerStackView)
+                
+                for level in allLevels {
+                    let levelView = createLevelView(level)
+                    levelContainerStackView.addArrangedSubview(levelView)
+                    levelView.snp_makeConstraints(closure: { (make) -> Void in
+                        make.width.lessThanOrEqualTo(levelContainerStackView.snp_width).multipliedBy(0.2).offset(13)
+                        make.bottomMargin.topMargin.equalTo(levelContainerStackView).priority(700)
+                        make.width.equalTo(levelView.snp_height).priority(750)
+                    })
+                }
+                levelContainerView = levelContainerStackView
+            } else {
+                levelContainerView = UIView()
+                containerView.addSubview(levelContainerView)
+                
+                let level = allLevels[0]
+                let levelView = createLevelView(level)
+                levelContainerView.addSubview(levelView)
+                levelView.snp_makeConstraints(closure: { (make) -> Void in
+                    make.width.lessThanOrEqualTo(levelContainerView.snp_width).multipliedBy(0.2).offset(13)
+                    make.bottomMargin.topMargin.equalTo(levelContainerView).priority(700)
+                    make.width.equalTo(levelView.snp_height).priority(750)
+                    make.centerX.equalTo(levelContainerView)
+                })
+            }
+            
+            levelContainerView.snp_makeConstraints { (make) -> Void in
+                make.top.equalTo(titleLabel.snp_bottom).offset(12)
+                make.leadingMargin.trailingMargin.equalTo(containerView)
+                make.bottomMargin.equalTo(containerView).offset(-10)
+            }
+        } else {
+            
         }
         
         titleLabel.snp_makeConstraints { (make) -> Void in
             make.topMargin.centerX.equalTo(containerView)
             make.height.equalTo(32)
-        }
-        levelContainerStackView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(titleLabel.snp_bottom).offset(12)
-            make.leadingMargin.trailingMargin.equalTo(containerView)
-            make.bottomMargin.equalTo(containerView).offset(-10)
         }
     }
 }

@@ -140,6 +140,8 @@ class TTDGame {
     var columns: Int
     var reachablePolices: [NodePosition]
     
+    var currentSteps = 0
+    
     init(lines: Int, columns: Int) {
         (self.lines, self.columns) = (lines, columns)
         dotPosition = NodePosition(line: lines / 2, column: columns / 2)
@@ -175,6 +177,8 @@ class TTDGame {
             }
             gameData[line][column] = .Police
         }
+        
+        currentSteps = 0
     }
     
     func checkPositionValid(position: NodePosition) -> Bool {

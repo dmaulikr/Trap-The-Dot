@@ -17,7 +17,6 @@
 		53393A1C1B871ED000E15029 /* GameBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53393A1B1B871ED000E15029 /* GameBoardViewController.swift */; };
 		535B08BF1B8D643F00069BA2 /* TTDGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535B08BE1B8D643F00069BA2 /* TTDGame.swift */; };
 		535B08C11B8D74FF00069BA2 /* TTDGameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535B08C01B8D74FF00069BA2 /* TTDGameTest.swift */; };
-		535B08C61B8EE3FC00069BA2 /* LevelSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535B08C51B8EE3FC00069BA2 /* LevelSelectorView.swift */; };
 		536813AF1B902083002AE6DE /* Foundation+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536813AE1B902083002AE6DE /* Foundation+extensions.swift */; settings = {ASSET_TAGS = (); }; };
 		536813B11B9201EE002AE6DE /* LevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536813B01B9201EE002AE6DE /* LevelView.swift */; settings = {ASSET_TAGS = (); }; };
 		53DFF6771B87F800002ADD4A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF6761B87F800002ADD4A /* HomeViewController.swift */; };
@@ -25,6 +24,8 @@
 		53DFF67B1B87FA37002ADD4A /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF67A1B87FA37002ADD4A /* ResultViewController.swift */; };
 		53DFF67D1B87FB4D002ADD4A /* UIView+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF67C1B87FB4D002ADD4A /* UIView+extensions.swift */; };
 		53DFF67F1B8805AC002ADD4A /* GameBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF67E1B8805AC002ADD4A /* GameBoardView.swift */; };
+		53E595B91B9466A30028CFE4 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E595B81B9466A30028CFE4 /* Theme.swift */; settings = {ASSET_TAGS = (); }; };
+		53E595BB1B95F1810028CFE4 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 53E595BA1B95F1810028CFE4 /* images */; settings = {ASSET_TAGS = (); }; };
 		7EAC99632B916F66DF50BF15 /* Pods_Trap_The_Dot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13AD930D9DA4ED5BC4850381 /* Pods_Trap_The_Dot.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -63,7 +64,6 @@
 		53393A1B1B871ED000E15029 /* GameBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBoardViewController.swift; sourceTree = "<group>"; };
 		535B08BE1B8D643F00069BA2 /* TTDGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTDGame.swift; sourceTree = "<group>"; };
 		535B08C01B8D74FF00069BA2 /* TTDGameTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTDGameTest.swift; sourceTree = "<group>"; };
-		535B08C51B8EE3FC00069BA2 /* LevelSelectorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSelectorView.swift; sourceTree = "<group>"; };
 		536813AE1B902083002AE6DE /* Foundation+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Foundation+extensions.swift"; sourceTree = "<group>"; };
 		536813B01B9201EE002AE6DE /* LevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelView.swift; sourceTree = "<group>"; };
 		53DFF6761B87F800002ADD4A /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -71,6 +71,8 @@
 		53DFF67A1B87FA37002ADD4A /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		53DFF67C1B87FB4D002ADD4A /* UIView+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+extensions.swift"; sourceTree = "<group>"; };
 		53DFF67E1B8805AC002ADD4A /* GameBoardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBoardView.swift; sourceTree = "<group>"; };
+		53E595B81B9466A30028CFE4 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		53E595BA1B95F1810028CFE4 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		726B961BEA347CC7E60F9A3E /* Pods-Trap-The-Dot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trap-The-Dot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trap-The-Dot/Pods-Trap-The-Dot.debug.xcconfig"; sourceTree = "<group>"; };
 		FC131DFBB28D8E173CB5B75C /* Pods-Trap-The-Dot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trap-The-Dot.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trap-The-Dot/Pods-Trap-The-Dot.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -143,6 +145,7 @@
 		533939EC1B87162300E15029 /* Trap-The-Dot */ = {
 			isa = PBXGroup;
 			children = (
+				53E595BA1B95F1810028CFE4 /* images */,
 				533939ED1B87162300E15029 /* AppDelegate.swift */,
 				533939EF1B87162300E15029 /* ViewController.swift */,
 				533939F11B87162300E15029 /* Main.storyboard */,
@@ -156,9 +159,9 @@
 				53DFF67C1B87FB4D002ADD4A /* UIView+extensions.swift */,
 				53DFF67E1B8805AC002ADD4A /* GameBoardView.swift */,
 				535B08BE1B8D643F00069BA2 /* TTDGame.swift */,
-				535B08C51B8EE3FC00069BA2 /* LevelSelectorView.swift */,
 				536813AE1B902083002AE6DE /* Foundation+extensions.swift */,
 				536813B01B9201EE002AE6DE /* LevelView.swift */,
+				53E595B81B9466A30028CFE4 /* Theme.swift */,
 			);
 			path = "Trap-The-Dot";
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53E595BB1B95F1810028CFE4 /* images in Resources */,
 				533939F81B87162300E15029 /* LaunchScreen.storyboard in Resources */,
 				533939F51B87162300E15029 /* Assets.xcassets in Resources */,
 				533939F31B87162300E15029 /* Main.storyboard in Resources */,
@@ -369,11 +373,11 @@
 				53DFF6791B87F856002ADD4A /* UIViewController+extensions.swift in Sources */,
 				533939F01B87162300E15029 /* ViewController.swift in Sources */,
 				535B08BF1B8D643F00069BA2 /* TTDGame.swift in Sources */,
-				535B08C61B8EE3FC00069BA2 /* LevelSelectorView.swift in Sources */,
 				53DFF67F1B8805AC002ADD4A /* GameBoardView.swift in Sources */,
 				533939EE1B87162300E15029 /* AppDelegate.swift in Sources */,
 				53393A1C1B871ED000E15029 /* GameBoardViewController.swift in Sources */,
 				53DFF6771B87F800002ADD4A /* HomeViewController.swift in Sources */,
+				53E595B91B9466A30028CFE4 /* Theme.swift in Sources */,
 				53DFF67B1B87FA37002ADD4A /* ResultViewController.swift in Sources */,
 				536813AF1B902083002AE6DE /* Foundation+extensions.swift in Sources */,
 			);
@@ -467,7 +471,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -506,7 +510,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -521,7 +525,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Trap-The-Dot/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.reeonce.Trap-The-Dot";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -535,7 +539,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Trap-The-Dot/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.reeonce.Trap-The-Dot";
 				PRODUCT_NAME = "$(TARGET_NAME)";

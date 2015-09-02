@@ -12,11 +12,11 @@ extension NodeType {
     var color: CGColor {
         switch self {
         case .Dot:
-            return UIColor.blueColor().CGColor
+            return Theme.currentTheme.secondaryColor.CGColor
         case .Road:
-            return UIColor.darkGrayColor().CGColor
+            return Theme.currentTheme.thirdColor.CGColor
         case .Police:
-            return UIColor.yellowColor().CGColor
+            return Theme.currentTheme.primaryColor.CGColor
         }
     }
 }
@@ -61,6 +61,9 @@ class GameBoardView: UIView {
         let layer = CALayer()
         layer.borderWidth = 3
         layer.backgroundColor = type.color
+        layer.shadowOffset = CGSizeZero
+        layer.shadowRadius = 0
+        layer.shadowColor = UIColor.clearColor().CGColor
 //        let textLayer = CATextLayer()
 //        textLayer.string = "\(position.line), \(position.column)"
 //        textLayer.alignmentMode = kCAAlignmentCenter
@@ -126,7 +129,7 @@ class GameBoardView: UIView {
         return dotLayer
     }
     
-    func moveDotFrom(from: NodePosition, toIndex to: NodePosition, game: TTDGame) {
+    func moveDotFrom(from: NodePosition, toIndex to: NodePosition, complete: ()->()) {
         guard checkPositionValid(from) && checkPositionValid(to) else {
             return
         }
@@ -147,16 +150,15 @@ class GameBoardView: UIView {
         animation.removedOnCompletion = false
         animation.fillMode = kCAFillModeForwards
         CATransaction.setCompletionBlock { () -> Void in
-            if game.dotPosition == to {
-                self.layers[to.line][to.column].backgroundColor = NodeType.Dot.color
-            }
+            self.layers[to.line][to.column].backgroundColor = NodeType.Dot.color
             copyedDotLayer.removeFromSuperlayer()
+            complete()
         }
         copyedDotLayer.addAnimation(animation, forKey: "position")
         CATransaction.commit()
     }
     
-    func linkCirclePolices(positions: [NodePosition]) {
+    func linkCirclePolices(positions: [NodePosition], complete: ()->()) {
         let path = CGPathCreateMutable()
         if let first = positions.first {
             let firstLayer = layers[first.line][first.column]
@@ -174,6 +176,28 @@ class GameBoardView: UIView {
             lineLayer.lineJoin = kCALineJoinRound
             lineLayer.fillColor = UIColor.clearColor().CGColor
             self.layer.addSublayer(lineLayer)
+            
+            let animateLayer = CALayer()
+            animateLayer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            animateLayer.bounds = CGRect(x: 0, y: 0, width: 12, height: 12)
+            animateLayer.masksToBounds = true
+            animateLayer.cornerRadius = 6
+            animateLayer.backgroundColor = Theme.currentTheme.secondaryColor.CGColor
+            animateLayer.position = firstLayer.position
+            self.layer.addSublayer(animateLayer)
+            
+            CATransaction.begin()
+            let animation = CAKeyframeAnimation(keyPath: "position")
+            animation.path = path
+            animation.duration = 2.0
+            animation.removedOnCompletion = false
+            animation.fillMode = kCAFillModeForwards
+            
+            CATransaction.setCompletionBlock { () -> Void in
+                complete()
+            }
+            animateLayer.addAnimation(animation, forKey: "position")
+            CATransaction.commit()
         }
     }
     

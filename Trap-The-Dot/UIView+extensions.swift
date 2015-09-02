@@ -25,10 +25,17 @@ extension UIView {
     }
 }
 
+@available(iOS 9.0, *)
 extension UIStackView {
     func addArrangedSubviews(views: [UIView]) {
         for v in views {
             self.addArrangedSubview(v)
+        }
+    }
+    
+    func removeAllArrangedSubviews() {
+        for subview in arrangedSubviews {
+            subview.removeFromSuperview()
         }
     }
 }

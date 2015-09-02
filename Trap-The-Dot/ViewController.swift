@@ -21,6 +21,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        view.backgroundColor = Theme.currentTheme.primaryBackgroundColor
         
         view.addSubview(bannerView)
         bannerView.snp_makeConstraints { (make) -> Void in
@@ -51,9 +52,10 @@ class ViewController: UIViewController {
 
     func navigateTo(viewController: UIViewController) {
         currentViewController?.view.removeFromSuperview()
-        currentViewController?.removeFromParentViewController()
         
-        addChildViewController(viewController)
+        if viewController.parentViewController == nil {
+            addChildViewController(viewController)
+        }
         currentViewController = viewController
         view.addSubview(viewController.view)
         viewController.view.snp_makeConstraints { (make) -> Void in
@@ -97,7 +99,7 @@ class ViewController: UIViewController {
         }
         let result = userInfo["result"] as! Wrapper<Result>
         navigateTo(resultViewController)
-        resultViewController.showResult(GameLevel.currentLevel!, result: result.wrappedValue, screenShot: userInfo["snapshot"] as? UIImage)
+        resultViewController.showResult(GameLevel.currentLevel!, result: result.wrappedValue, screenShot: userInfo["snapshot"] as? UIImage, totalSteps: userInfo["totalSteps"] as! Int)
     }
 }
 

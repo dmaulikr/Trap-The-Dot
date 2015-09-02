@@ -13,11 +13,11 @@ enum Result {
     case Fail
     
     var title: String {
-        return self == .Win ? "✌️" : "输了"
+        return self == .Win ? "✌️" : "Lose"
     }
     
     var message: String {
-        return self == .Win ? "赢了" : "输了"
+        return self == .Win ? "Contratuates, you use only %i steps, 😄" : "The dot escaped 😭... "
     }
 }
 
@@ -27,6 +27,7 @@ class ResultViewController: UIViewController {
     lazy var resultTitleLabel = UILabel()
     lazy var resultDescriptionLabel = UILabel()
     
+    @available(iOS 9.0, *)
     lazy var buttonsStackView = UIStackView()
     
     lazy var replayButton = UIButton()
@@ -49,18 +50,22 @@ class ResultViewController: UIViewController {
         homeButton.setTitle("Home", forState: .Normal)
         
         for button in [replayButton, onceMoreButton, nextButton, shareButton, commentButton, homeButton] {
-            button.backgroundColor = UIColor.darkGrayColor()
+            button.backgroundColor = Theme.currentTheme.secondaryColor
             button.layer.masksToBounds = true
             button.layer.cornerRadius = 4
         }
         
-        buttonsStackView.axis = .Vertical
-        buttonsStackView.alignment = .Center
-        buttonsStackView.distribution = .Fill
-        buttonsStackView.spacing = 40
-        buttonsStackView.backgroundColor = UIColor.blueColor()
-        
-        view.addSubviews([resultTitleLabel, resultDescriptionLabel, buttonsStackView])
+        if #available(iOS 9, *) {
+            buttonsStackView.axis = .Vertical
+            buttonsStackView.alignment = .Center
+            buttonsStackView.distribution = .Fill
+            buttonsStackView.spacing = 20
+            buttonsStackView.backgroundColor = UIColor.blueColor()
+            
+            view.addSubviews([resultTitleLabel, resultDescriptionLabel, buttonsStackView])
+        } else {
+            view.addSubviews([resultTitleLabel, resultDescriptionLabel])
+        }
         
         resultTitleLabel.snp_makeConstraints { (make) -> Void in
             make.centerX.equalTo(self.view)
@@ -70,10 +75,12 @@ class ResultViewController: UIViewController {
             make.centerX.equalTo(self.view)
             make.top.equalTo(resultTitleLabel.snp_bottom).offset(20)
         }
-        buttonsStackView.snp_makeConstraints { (make) -> Void in
-            make.leading.trailing.equalTo(self.view)
-            make.bottom.lessThanOrEqualTo(self.view).offset(-32)
-            make.top.equalTo(resultDescriptionLabel.snp_bottom).offset(40)
+        if #available(iOS 9, *) {
+            buttonsStackView.snp_makeConstraints { (make) -> Void in
+                make.leading.trailing.equalTo(self.view)
+                make.bottom.lessThanOrEqualTo(self.view).offset(-32)
+                make.top.equalTo(resultDescriptionLabel.snp_bottom).offset(40)
+            }
         }
         
         replayButton.addTarget(self, action: "replay:", forControlEvents: .TouchUpInside)
@@ -89,30 +96,35 @@ class ResultViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func showResult(level: GameLevel, result: Result, screenShot: UIImage?) {
+    func showResult(level: GameLevel, result: Result, screenShot: UIImage?, totalSteps: Int) {
         resultTitleLabel.text = result.title
-        resultDescriptionLabel.text = result.message
-        
-        if level.mode == .Random {
-            if result == .Win {
-                buttonsStackView.addArrangedSubviews([ onceMoreButton, shareButton, commentButton, homeButton ])
+        resultDescriptionLabel.text = String(format: result.message, arguments: [totalSteps])
+        if #available(iOS 9, *) {
+            buttonsStackView.removeAllArrangedSubviews()
+            
+            if level.mode == .Random {
+                if result == .Win {
+                    buttonsStackView.addArrangedSubviews([ onceMoreButton, shareButton, commentButton, homeButton ])
+                } else {
+                    buttonsStackView.addArrangedSubviews([ onceMoreButton, commentButton, homeButton ])
+                }
             } else {
-                buttonsStackView.addArrangedSubviews([ onceMoreButton, commentButton, homeButton ])
+                if result == .Win {
+                    buttonsStackView.addArrangedSubviews([ nextButton, shareButton, commentButton, homeButton ])
+                } else {
+                    buttonsStackView.addArrangedSubviews([ onceMoreButton, commentButton, homeButton ])
+                }
             }
-        } else {
-            if result == .Win {
-                buttonsStackView.addArrangedSubviews([ nextButton, shareButton, commentButton, homeButton ])
-            } else {
-                buttonsStackView.addArrangedSubviews([ onceMoreButton, commentButton, homeButton ])
-            }
-        }
-        
-        for button in [replayButton, onceMoreButton, nextButton, shareButton, commentButton, homeButton] {
-            if button.superview == buttonsStackView {
-                button.snp_makeConstraints(closure: { (make) -> Void in
-                    make.width.equalTo(buttonsStackView).offset(-120)
-                    make.height.equalTo(50)
-                })
+            
+            for button in [replayButton, onceMoreButton, nextButton, shareButton, commentButton, homeButton] {
+                let count = buttonsStackView.arrangedSubviews.count
+                if button.superview == buttonsStackView {
+                    button.snp_makeConstraints(closure: { (make) -> Void in
+                        make.width.equalTo(buttonsStackView).offset(-120)
+                        make.height.equalTo(50).priority(750)
+                        make.height.lessThanOrEqualTo(buttonsStackView).multipliedBy( 1.0 / Double(count)).offset(Double(-20 * (count - 1)) / Double(count))
+                    })
+                }
             }
         }
     }

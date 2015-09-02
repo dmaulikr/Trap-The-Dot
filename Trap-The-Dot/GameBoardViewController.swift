@@ -28,23 +28,23 @@ class GameBoardViewController: UIViewController {
 
         titleLabel = addTTDTitle()
         soundButton.backgroundColor = UIColor.blackColor()
-        colorButton.backgroundColor = UIColor.blackColor()
+        soundButton.setBackgroundImage(UIImage(named: "images/soundOff.png"), forState: .Normal)
+        colorButton.setBackgroundImage(UIImage(named: "images/colorLess.png"), forState: .Normal)
         stepsLabel.text = "0 step"
         
         game = TTDGame(lines: gameLines, columns: gameColumns)
         gameBoardView = GameBoardView(lines: gameLines, columns: gameColumns)
         
-        self.view.addSubview(soundButton)
-        self.view.addSubview(colorButton)
-        self.view.addSubview(stepsLabel)
-        self.view.addSubview(gameBoardView)
+        view.addSubviews([soundButton, colorButton, stepsLabel, gameBoardView])
         
         soundButton.snp_makeConstraints { (make) -> Void in
-            make.leading.top.equalTo(self.view)
+            make.leadingMargin.equalTo(self.view)
+            make.top.equalTo(self.view).offset(10)
             make.width.height.equalTo(44)
         }
         colorButton.snp_makeConstraints { (make) -> Void in
-            make.trailing.top.equalTo(self.view)
+            make.trailingMargin.equalTo(self.view)
+            make.top.equalTo(self.view).offset(10)
             make.width.height.equalTo(44)
         }
         stepsLabel.snp_makeConstraints { (make) -> Void in
@@ -53,15 +53,13 @@ class GameBoardViewController: UIViewController {
             make.bottom.equalTo(gameBoardView.snp_top)
         }
         gameBoardView.snp_makeConstraints { (make) -> Void in
-            make.leading.trailing.equalTo(self.view)
+            make.leadingMargin.trailingMargin.equalTo(self.view)
             make.bottom.equalTo(self.view).offset(-30)
             make.height.equalTo(gameBoardView.snp_width).multipliedBy(nodeHeightWidthRatio)
         }
         
         gameBoardView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "handleTap:"))
         
-        
-        view.backgroundColor = UIColor.lightGrayColor()
         gameBoardView.backgroundColor = view.backgroundColor
         
         initGame()
@@ -83,9 +81,13 @@ class GameBoardViewController: UIViewController {
         
         if game.searchNext() == nil {
             if let circlePolices = game.getCircleSortedPolices() {
+                gameBoardView.userInteractionEnabled = false
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.gameBoardView.linkCirclePolices(circlePolices)
-                    self.showResult(.Win)
+                    self.gameBoardView.linkCirclePolices(circlePolices, complete: { () -> () in
+                        self.showResult(.Win)
+                        self.gameBoardView.userInteractionEnabled = true
+                        return
+                    })
                 })
             }
         }
@@ -97,6 +99,7 @@ class GameBoardViewController: UIViewController {
         if let index = gameBoardView.indexOfPosition(position) {
             if game.checkPositionValid(index) {
                 if game.gameData[index.line][index.column] == NodeType.Road {
+                    accumulateStep()
                     game.gameData[index.line][index.column] = .Police
                     trapAt(index)
                 }
@@ -104,30 +107,45 @@ class GameBoardViewController: UIViewController {
         }
     }
     
+    func accumulateStep() {
+        game.currentSteps++
+        stepsLabel.text = "\(game.currentSteps) Step"
+    }
+    
     func trapAt(position: NodePosition) {
         gameBoardView.changeIndexToType(position, type: .Police)
         if let nextPosition = game.searchNext() {
             if game.checkPositionValid(nextPosition) {
                 game.gameData[game.dotPosition.line][game.dotPosition.column] = .Road
-                game.gameData[nextPosition.line][nextPosition.column] = .Dot
-                gameBoardView.moveDotFrom(game.dotPosition, toIndex: nextPosition, game: game)
-                game.dotPosition = nextPosition
+                gameBoardView.userInteractionEnabled = false
+                gameBoardView.moveDotFrom(game.dotPosition, toIndex: nextPosition, complete: { () -> () in
+                    self.game.gameData[nextPosition.line][nextPosition.column] = .Dot
+                    self.game.dotPosition = nextPosition
+                    self.gameBoardView.userInteractionEnabled = true
+                })
+                
                 return
             } else {
+                self.gameBoardView.userInteractionEnabled = false
                 gameBoardView.dotEscapeTo(nextPosition, from: game.dotPosition) {
+                    self.gameBoardView.userInteractionEnabled = true
                     self.showResult(.Fail)
                 }
                 return
             }
         }
         if let circlePolices = game.getCircleSortedPolices() {
-            gameBoardView.linkCirclePolices(circlePolices)
-            showResult(.Win)
+            self.gameBoardView.userInteractionEnabled = false
+            gameBoardView.linkCirclePolices(circlePolices, complete: { () -> () in
+                self.showResult(.Win)
+                self.gameBoardView.userInteractionEnabled = true
+                return
+            })
         }
     }
     
     func showResult(result: Result) {
         let snapshot = view.takeSnapshot()
-        NSNotificationCenter.defaultCenter().postNotificationName("showResult", object: nil, userInfo: ["result": Wrapper(theValue: result), "snapshot": snapshot])
+        NSNotificationCenter.defaultCenter().postNotificationName("showResult", object: nil, userInfo: ["result": Wrapper(theValue: result), "snapshot": snapshot, "totalSteps": game.currentSteps])
     }
 }
