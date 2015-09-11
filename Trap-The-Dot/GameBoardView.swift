@@ -177,26 +177,18 @@ class GameBoardView: UIView {
             lineLayer.fillColor = UIColor.clearColor().CGColor
             self.layer.addSublayer(lineLayer)
             
-            let animateLayer = CALayer()
-            animateLayer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            animateLayer.bounds = CGRect(x: 0, y: 0, width: 12, height: 12)
-            animateLayer.masksToBounds = true
-            animateLayer.cornerRadius = 6
-            animateLayer.backgroundColor = Theme.currentTheme.secondaryColor.CGColor
-            animateLayer.position = firstLayer.position
-            self.layer.addSublayer(animateLayer)
-            
             CATransaction.begin()
-            let animation = CAKeyframeAnimation(keyPath: "position")
-            animation.path = path
+            let animation = CABasicAnimation(keyPath: "strokeEnd")
             animation.duration = 2.0
-            animation.removedOnCompletion = false
+            animation.fromValue = 0.0
+            animation.toValue = 1.0
+            animation.removedOnCompletion = true
             animation.fillMode = kCAFillModeForwards
             
             CATransaction.setCompletionBlock { () -> Void in
                 complete()
             }
-            animateLayer.addAnimation(animation, forKey: "position")
+            lineLayer.addAnimation(animation, forKey: "strokeEnd")
             CATransaction.commit()
         }
     }

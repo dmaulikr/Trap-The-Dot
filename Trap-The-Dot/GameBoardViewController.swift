@@ -8,6 +8,17 @@
 
 import UIKit
 import SnapKit
+import AudioToolbox
+
+var voiceEnabled: Bool = {
+    return NSUserDefaults.standardUserDefaults().valueForKey("voiceEnabled") as? Bool ?? true
+}()
+
+func toggleVoiceEnable() {
+    voiceEnabled = !voiceEnabled
+    NSUserDefaults.standardUserDefaults().setBool(voiceEnabled, forKey: "voiceEnabled")
+    NSUserDefaults.standardUserDefaults().synchronize()
+}
 
 class GameBoardViewController: UIViewController {
 
@@ -27,26 +38,29 @@ class GameBoardViewController: UIViewController {
         super.viewDidLoad()
 
         titleLabel = addTTDTitle()
-        soundButton.backgroundColor = UIColor.blackColor()
-        soundButton.setBackgroundImage(UIImage(named: "images/soundOff.png"), forState: .Normal)
-        colorButton.setBackgroundImage(UIImage(named: "images/colorLess.png"), forState: .Normal)
+        soundButton.setBackgroundImage(UIImage(named: "images/soundOff.png"), forState: .Selected)
+        soundButton.setBackgroundImage(UIImage(named: "images/soundOn.png"), forState: .Normal)
+        colorButton.setBackgroundImage(UIImage(named: "images/colorLess.png"), forState: .Selected)
+        colorButton.setBackgroundImage(UIImage(named: "images/colorful.png"), forState: .Normal)
+        soundButton.selected = voiceEnabled
+        colorButton.selected = (Theme.currentTheme == Theme.mainTheme)
         stepsLabel.text = "0 step"
         
         game = TTDGame(lines: gameLines, columns: gameColumns)
         gameBoardView = GameBoardView(lines: gameLines, columns: gameColumns)
         
-        view.addSubviews([soundButton, colorButton, stepsLabel, gameBoardView])
+        view.addSubviews([soundButton, stepsLabel, gameBoardView])
         
         soundButton.snp_makeConstraints { (make) -> Void in
             make.leadingMargin.equalTo(self.view)
             make.top.equalTo(self.view).offset(10)
-            make.width.height.equalTo(44)
+            make.width.height.equalTo(36)
         }
-        colorButton.snp_makeConstraints { (make) -> Void in
-            make.trailingMargin.equalTo(self.view)
-            make.top.equalTo(self.view).offset(10)
-            make.width.height.equalTo(44)
-        }
+//        colorButton.snp_makeConstraints { (make) -> Void in
+//            make.trailingMargin.equalTo(self.view)
+//            make.top.equalTo(self.view).offset(10)
+//            make.width.height.equalTo(36)
+//        }
         stepsLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(titleLabel.snp_bottom)
             make.centerX.equalTo(self.view)
@@ -61,6 +75,9 @@ class GameBoardViewController: UIViewController {
         gameBoardView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "handleTap:"))
         
         gameBoardView.backgroundColor = view.backgroundColor
+        
+        soundButton.addTarget(self, action: "toggleSound:", forControlEvents: .TouchUpInside)
+        colorButton.addTarget(self, action: "toggleColor:", forControlEvents: .TouchUpInside)
         
         initGame()
     }
@@ -123,7 +140,7 @@ class GameBoardViewController: UIViewController {
                     self.game.dotPosition = nextPosition
                     self.gameBoardView.userInteractionEnabled = true
                 })
-                
+                playSound("sounds/dot.mp3")
                 return
             } else {
                 self.gameBoardView.userInteractionEnabled = false
@@ -144,8 +161,30 @@ class GameBoardViewController: UIViewController {
         }
     }
     
+    func playSound(soundFile: String) {
+        guard let soundURL = NSURL(string: (NSBundle.mainBundle().resourcePath! + "/" + soundFile)) else {
+            return
+        }
+        if voiceEnabled {
+            let soundID = UnsafeMutablePointer<SystemSoundID>.alloc(1)
+            if AudioServicesCreateSystemSoundID(soundURL, soundID) == 0 {
+                AudioServicesPlayAlertSound(soundID.memory)
+            }
+        }
+    }
+    
     func showResult(result: Result) {
         let snapshot = view.takeSnapshot()
         NSNotificationCenter.defaultCenter().postNotificationName("showResult", object: nil, userInfo: ["result": Wrapper(theValue: result), "snapshot": snapshot, "totalSteps": game.currentSteps])
+    }
+    
+    func toggleSound(sender: AnyObject) {
+        toggleVoiceEnable()
+        soundButton.selected = !soundButton.selected
+    }
+    
+    func toggleColor(sender: AnyObject) {
+        colorButton.selected = !colorButton.selected
+        Theme.currentTheme = [Theme.mainTheme, Theme.grayTheme].filter({ $0 != Theme.currentTheme }).first!
     }
 }

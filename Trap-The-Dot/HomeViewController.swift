@@ -48,10 +48,17 @@ class HomeViewController: UIViewController {
     }
     
     func tapAtLevel(gestureRecognizer: UITapGestureRecognizer) {
-        if let tag = gestureRecognizer.view?.tag {
-            let level = GameLevel(hashValue: tag)
-            let levelObject = Wrapper<GameLevel>(theValue: level)
-            NSNotificationCenter.defaultCenter().postNotificationName("newGameWithLevel", object: nil, userInfo: ["level": levelObject])
+        if let view = gestureRecognizer.view {
+            UIView.animateWithDuration(0.4, animations: { () -> Void in
+                view.transform = CGAffineTransformMakeScale(50, 50)
+                }, completion: { (_) -> Void in
+                    view.transform = CGAffineTransformMakeScale(1, 1)
+                    let tag = view.tag
+                    let level = GameLevel(hashValue: tag)
+                    let levelObject = Wrapper<GameLevel>(theValue: level)
+                    NSNotificationCenter.defaultCenter().postNotificationName("newGameWithLevel", object: nil, userInfo: ["level": levelObject])
+            })
+            
         }
     }
     

@@ -20,7 +20,7 @@ class LevelView: UIView {
         if smallRectLayer == nil {
             smallRectLayer = CAShapeLayer()
             smallRectLayer!.strokeColor = Theme.currentTheme.primaryColor.CGColor
-            smallRectLayer!.lineWidth = 2
+            smallRectLayer!.lineWidth = 0
             smallRectLayer!.lineCap = kCALineCapRound
             smallRectLayer!.lineJoin = kCALineJoinRound
             smallRectLayer!.fillColor = UIColor.clearColor().CGColor
@@ -28,7 +28,7 @@ class LevelView: UIView {
         }
         
         let path = CGPathCreateMutable()
-        CGPathAddRoundedRect(path, nil, CGRect(x: layer.bounds.size.width * 0.2, y: layer.bounds.size.height * 0.2, width: layer.bounds.size.width * 0.6, height: layer.bounds.size.height * 0.6), 6, 6)
+        CGPathAddRoundedRect(path, nil, CGRect(x: layer.bounds.size.width * 0.2, y: layer.bounds.size.height * 0.2, width: layer.bounds.size.width * 0.6, height: layer.bounds.size.height * 0.6), layer.bounds.size.width * 0.3, layer.bounds.size.height * 0.3)
         smallRectLayer!.path = path
         
         if titleLayer == nil {
@@ -47,7 +47,7 @@ class LevelView: UIView {
         
         layer.borderColor = Theme.currentTheme.primaryColor.CGColor
         layer.borderWidth = 2
-        layer.cornerRadius = 8
+        layer.cornerRadius = min(layer.bounds.size.width, layer.bounds.size.height) / 2
         layer.masksToBounds = true
     }
 
