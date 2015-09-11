@@ -16,6 +16,12 @@ extension UIView {
         }
     }
     
+    func removeSubviews() {
+        for v in subviews {
+            v.removeFromSuperview()
+        }
+    }
+    
     func takeSnapshot() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.mainScreen().scale)
         drawViewHierarchyInRect(self.bounds, afterScreenUpdates: true)

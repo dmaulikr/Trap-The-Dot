@@ -22,9 +22,6 @@ class HomeViewController: UIViewController {
         titleLabel = addTTDTitle()
         
         view.addSubviews([randomView, easyView, hardView])
-        createModeView(.Random, containerView: randomView)
-        createModeView(.Easy, containerView: easyView)
-        createModeView(.Hard, containerView: hardView)
         
         randomView.snp_makeConstraints { (make) -> Void in
             make.leading.trailing.equalTo(view)
@@ -47,6 +44,19 @@ class HomeViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        updateModeViews()
+    }
+    
+    func updateModeViews() {
+        [randomView, easyView, hardView].forEach { (view) -> () in
+            view.removeSubviews()
+        }
+        createModeView(.Random, containerView: randomView)
+        createModeView(.Easy, containerView: easyView)
+        createModeView(.Hard, containerView: hardView)
+    }
+    
     func tapAtLevel(gestureRecognizer: UITapGestureRecognizer) {
         if let view = gestureRecognizer.view {
             UIView.animateWithDuration(0.4, animations: { () -> Void in
@@ -58,7 +68,6 @@ class HomeViewController: UIViewController {
                     let levelObject = Wrapper<GameLevel>(theValue: level)
                     NSNotificationCenter.defaultCenter().postNotificationName("newGameWithLevel", object: nil, userInfo: ["level": levelObject])
             })
-            
         }
     }
     
@@ -71,7 +80,7 @@ class HomeViewController: UIViewController {
             let levelView = LevelView()
             levelView.backgroundColor = Theme.currentTheme.secondaryColor
             levelView.level = level
-            levelView.minSteps = -1
+            levelView.minSteps = Record.getRecord(level)
             levelView.tag = level.hashValue
             let tapGesture = UITapGestureRecognizer(target: self, action: "tapAtLevel:")
             levelView.addGestureRecognizer(tapGesture)

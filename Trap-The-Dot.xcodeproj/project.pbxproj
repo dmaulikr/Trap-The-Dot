@@ -21,6 +21,7 @@
 		536813B11B9201EE002AE6DE /* LevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536813B01B9201EE002AE6DE /* LevelView.swift */; settings = {ASSET_TAGS = (); }; };
 		538716501B9C382300E3C9E8 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 5387164F1B9C382300E3C9E8 /* images */; settings = {ASSET_TAGS = (); }; };
 		538716521B9C383000E3C9E8 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 538716511B9C383000E3C9E8 /* sounds */; settings = {ASSET_TAGS = (); }; };
+		53C3C1661BA270970068A6D4 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C3C1651BA270970068A6D4 /* Record.swift */; settings = {ASSET_TAGS = (); }; };
 		53DFF6771B87F800002ADD4A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF6761B87F800002ADD4A /* HomeViewController.swift */; };
 		53DFF6791B87F856002ADD4A /* UIViewController+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF6781B87F856002ADD4A /* UIViewController+extensions.swift */; };
 		53DFF67B1B87FA37002ADD4A /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF67A1B87FA37002ADD4A /* ResultViewController.swift */; };
@@ -69,6 +70,7 @@
 		536813B01B9201EE002AE6DE /* LevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelView.swift; sourceTree = "<group>"; };
 		5387164F1B9C382300E3C9E8 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = images; path = resources/images; sourceTree = "<group>"; };
 		538716511B9C383000E3C9E8 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sounds; path = resources/sounds; sourceTree = "<group>"; };
+		53C3C1651BA270970068A6D4 /* Record.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		53DFF6761B87F800002ADD4A /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		53DFF6781B87F856002ADD4A /* UIViewController+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+extensions.swift"; sourceTree = "<group>"; };
 		53DFF67A1B87FA37002ADD4A /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				536813AE1B902083002AE6DE /* Foundation+extensions.swift */,
 				536813B01B9201EE002AE6DE /* LevelView.swift */,
 				53E595B81B9466A30028CFE4 /* Theme.swift */,
+				53C3C1651BA270970068A6D4 /* Record.swift */,
 			);
 			path = "Trap-The-Dot";
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				535B08BF1B8D643F00069BA2 /* TTDGame.swift in Sources */,
 				53DFF67F1B8805AC002ADD4A /* GameBoardView.swift in Sources */,
 				533939EE1B87162300E15029 /* AppDelegate.swift in Sources */,
+				53C3C1661BA270970068A6D4 /* Record.swift in Sources */,
 				53393A1C1B871ED000E15029 /* GameBoardViewController.swift in Sources */,
 				53DFF6771B87F800002ADD4A /* HomeViewController.swift in Sources */,
 				53E595B91B9466A30028CFE4 /* Theme.swift in Sources */,

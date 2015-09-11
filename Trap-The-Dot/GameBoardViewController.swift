@@ -174,6 +174,10 @@ class GameBoardViewController: UIViewController {
     }
     
     func showResult(result: Result) {
+        if result == .Win {
+            Record.addRecord(GameLevel.currentLevel!, value: game.currentSteps)
+        }
+        
         let snapshot = view.takeSnapshot()
         NSNotificationCenter.defaultCenter().postNotificationName("showResult", object: nil, userInfo: ["result": Wrapper(theValue: result), "snapshot": snapshot, "totalSteps": game.currentSteps])
     }

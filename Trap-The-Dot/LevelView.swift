@@ -11,7 +11,7 @@ import UIKit
 class LevelView: UIView {
     
     var level = GameLevel(mode: .Random, level: 0)
-    var minSteps: Int = -1
+    var minSteps: Int = Int.max
     
     var titleLayer: CATextLayer?
     var smallRectLayer: CAShapeLayer?
@@ -43,7 +43,7 @@ class LevelView: UIView {
             
             layer.addSublayer(titleLayer!)
         }
-        titleLayer!.string = minSteps > 0 ? "\(minSteps)" : "?"
+        titleLayer!.string = minSteps < Int.max ? "\(minSteps)" : "?"
         
         layer.borderColor = Theme.currentTheme.primaryColor.CGColor
         layer.borderWidth = 2
