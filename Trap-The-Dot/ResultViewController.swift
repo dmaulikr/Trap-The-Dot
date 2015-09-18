@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FBSDKShareKit
 
 enum Result {
     case Win
@@ -26,6 +27,9 @@ class ResultViewController: UIViewController {
     var titleLabel: UILabel!
     lazy var resultTitleLabel = UILabel()
     lazy var resultDescriptionLabel = UILabel()
+    lazy var backgroundImageView = UIImageView()
+    var screenShotImage: UIImage?
+    lazy var ciContext = CIContext()
     
     @available(iOS 9.0, *)
     lazy var buttonsStackView = UIStackView()
@@ -62,11 +66,14 @@ class ResultViewController: UIViewController {
             buttonsStackView.spacing = 20
             buttonsStackView.backgroundColor = UIColor.blueColor()
             
-            view.addSubviews([resultTitleLabel, resultDescriptionLabel, buttonsStackView])
+            view.addSubviews([backgroundImageView, resultTitleLabel, resultDescriptionLabel, buttonsStackView])
         } else {
-            view.addSubviews([resultTitleLabel, resultDescriptionLabel])
+            view.addSubviews([backgroundImageView, resultTitleLabel, resultDescriptionLabel])
         }
         
+        backgroundImageView.snp_makeConstraints { (make) -> Void in
+            make.leading.trailing.top.bottom.equalTo(view)
+        }
         resultTitleLabel.snp_makeConstraints { (make) -> Void in
             make.centerX.equalTo(self.view)
             make.top.equalTo(titleLabel.snp_bottom).offset(20)
@@ -94,11 +101,34 @@ class ResultViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        releaseImages()
+    }
+    
+    func releaseImages() {
+        screenShotImage = nil
+        backgroundImageView.image = nil
     }
     
     func showResult(level: GameLevel, result: Result, screenShot: UIImage?, totalSteps: Int) {
+        screenShotImage = screenShot
         resultTitleLabel.text = result.title
         resultDescriptionLabel.text = String(format: result.message, arguments: [totalSteps])
+        
+        if let cgImage = screenShot?.CGImage {
+            let ciImage = CIImage(CGImage: cgImage)
+            if let filter = CIFilter(name: "CIGaussianBlur") {
+                filter.setValue(ciImage, forKey: kCIInputImageKey)
+                filter.setValue(30.0, forKey: "inputRadius")
+                let result = filter.valueForKey(kCIOutputImageKey) as! CIImage
+                let bluredCGImage = ciContext.createCGImage(result, fromRect: ciImage.extent)
+                backgroundImageView.image = UIImage(CGImage: bluredCGImage)
+            } else {
+                view.backgroundColor = UIColor.clearColor()
+            }
+        } else {
+            view.backgroundColor = UIColor.clearColor()
+        }
+        
         if #available(iOS 9, *) {
             buttonsStackView.removeAllArrangedSubviews()
             
@@ -131,18 +161,26 @@ class ResultViewController: UIViewController {
     
     func replay(sender: AnyObject?) {
         NSNotificationCenter.defaultCenter().postNotificationName("replay", object: nil)
+        releaseImages()
     }
     
     func onceMore(sender: AnyObject?) {
         NSNotificationCenter.defaultCenter().postNotificationName("onceMore", object: nil)
+        releaseImages()
     }
     
     func nextLevel(sender: AnyObject?) {
         NSNotificationCenter.defaultCenter().postNotificationName("nextLevel", object: nil)
+        releaseImages()
     }
     
     func share(sender: AnyObject?) {
-        
+        if let image = screenShotImage {
+            let photo = FBSDKSharePhoto(image: image, userGenerated: true)
+            let photoContent = FBSDKSharePhotoContent()
+            photoContent.photos = [photo]
+            FBSDKShareDialog.showFromViewController(self, withContent: photoContent, delegate: nil)
+        }
     }
     
     func comment(sender: AnyObject?) {
@@ -153,5 +191,21 @@ class ResultViewController: UIViewController {
     
     func gotoHome(sender: AnyObject?) {
         NSNotificationCenter.defaultCenter().postNotificationName("gotoHome", object: nil)
+        releaseImages()
+    }
+}
+
+
+extension ResultViewController: FBSDKSharingDelegate {
+    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+        logger.debug("success?")
+    }
+    
+    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+        logger.debug("failed.")
+    }
+    
+    func sharerDidCancel(sharer: FBSDKSharing!) {
+        logger.debug("canceled")
     }
 }

@@ -51,18 +51,19 @@ class ViewController: UIViewController {
     }
 
     func navigateTo(viewController: UIViewController) {
-        currentViewController?.view.removeFromSuperview()
+        currentViewController?.view.hidden = true
         
         if viewController.parentViewController == nil {
             addChildViewController(viewController)
+            view.addSubview(viewController.view)
+            viewController.view.snp_makeConstraints { (make) -> Void in
+                make.leading.trailing.equalTo(self.view)
+                make.top.equalTo(self.snp_topLayoutGuideBottom)
+                make.bottom.equalTo(bannerView.snp_top)
+            }
         }
         currentViewController = viewController
-        view.addSubview(viewController.view)
-        viewController.view.snp_makeConstraints { (make) -> Void in
-            make.leading.trailing.equalTo(self.view)
-            make.top.equalTo(self.snp_topLayoutGuideBottom)
-            make.bottom.equalTo(bannerView.snp_top)
-        }
+        currentViewController?.view.hidden = false
     }
     
     func replay(notification: NSNotification) {

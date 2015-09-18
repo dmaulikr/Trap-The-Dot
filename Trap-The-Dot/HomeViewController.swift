@@ -59,9 +59,12 @@ class HomeViewController: UIViewController {
     
     func tapAtLevel(gestureRecognizer: UITapGestureRecognizer) {
         if let view = gestureRecognizer.view {
+            let originCenter = view.center
+            view.center = view.superview!.convertPoint(self.view.center, fromView: self.view)
             UIView.animateWithDuration(0.4, animations: { () -> Void in
-                view.transform = CGAffineTransformMakeScale(50, 50)
+                view.transform = CGAffineTransformMake(50, 0, 0, 50, 0, 0)
                 }, completion: { (_) -> Void in
+                    view.center = originCenter
                     view.transform = CGAffineTransformMakeScale(1, 1)
                     let tag = view.tag
                     let level = GameLevel(hashValue: tag)

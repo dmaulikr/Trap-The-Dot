@@ -1,8 +1,27 @@
 PODS:
+  - Bolts (1.2.2):
+    - Bolts/AppLinks (= 1.2.2)
+    - Bolts/Tasks (= 1.2.2)
+  - Bolts/AppLinks (1.2.2):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.2.2)
+  - FBSDKCoreKit (4.6.0):
+    - Bolts (~> 1.1)
+    - FBSDKCoreKit/arc (= 4.6.0)
+    - FBSDKCoreKit/no-arc (= 4.6.0)
+  - FBSDKCoreKit/arc (4.6.0):
+    - Bolts (~> 1.1)
+  - FBSDKCoreKit/no-arc (4.6.0):
+    - Bolts (~> 1.1)
+    - FBSDKCoreKit/arc
+  - FBSDKShareKit (4.6.0):
+    - FBSDKCoreKit
   - SnapKit (0.13.0)
   - XCGLogger (3.0b3)
 
 DEPENDENCIES:
+  - FBSDKCoreKit
+  - FBSDKShareKit
   - SnapKit (from `https://github.com/SnapKit/SnapKit.git`, branch `swift-2.0`)
   - XCGLogger (from `https://github.com/DaveWoodCom/XCGLogger.git`, branch `swift_2.0`)
 
@@ -23,6 +42,9 @@ CHECKOUT OPTIONS:
     :git: https://github.com/DaveWoodCom/XCGLogger.git
 
 SPEC CHECKSUMS:
+  Bolts: 20a2bd788273360cb1e31530dc19b8544eef2544
+  FBSDKCoreKit: 9954492d90c5fd65ae831395697a1660360d61f1
+  FBSDKShareKit: f474f1123791e215d0299b98b3ee92ddd9187d86
   SnapKit: 69fe274c71511df89a5591c11437a8b826bfa9eb
   XCGLogger: cf74de540a625c4925054a71997f188d76c98fbc
 
