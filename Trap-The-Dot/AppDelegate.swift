@@ -12,7 +12,13 @@ import FBSDKCoreKit
 
 let logger: XCGLogger = {
     let log = XCGLogger.defaultInstance()
-    log.setup(.Debug, showThreadName: true, showLogLevel: true, showFileNames: true, showLineNumbers: true, writeToFile: nil, fileLogLevel: .Debug)
+    
+    #if DEBUG
+        log.setup(.Debug, showThreadName: true, showLogLevel: true, showFileNames: true, showLineNumbers: true, writeToFile: nil, fileLogLevel: .Debug)
+    #else
+        log.setup(.Severe, showThreadName: true, showLogLevel: true, showFileNames: true, showLineNumbers: true, writeToFile: nil)
+    #endif
+    
     
     let dateFormatter = NSDateFormatter()
     dateFormatter.dateFormat = "MM/dd/yyyy hh:mma"

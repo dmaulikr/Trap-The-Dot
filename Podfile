@@ -4,8 +4,8 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'Trap-The-Dot' do
-    pod 'SnapKit', :git => 'https://github.com/SnapKit/SnapKit.git', :branch => 'swift-2.0'
-    pod 'XCGLogger', :git => 'https://github.com/DaveWoodCom/XCGLogger.git', :branch => 'swift_2.0'
+    pod 'SnapKit'
+    pod 'XCGLogger'
     pod 'FBSDKCoreKit'
     pod 'FBSDKShareKit'
 #    pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift2'

@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import AudioToolbox
+import AVFoundation
 
 var voiceEnabled: Bool = {
     return NSUserDefaults.standardUserDefaults().valueForKey("voiceEnabled") as? Bool ?? true
@@ -27,10 +28,10 @@ class GameBoardViewController: UIViewController {
     lazy var colorButton: UIButton = UIButton()
     lazy var stepsLabel: UILabel = UILabel()
     var gameBoardView: GameBoardView!
-    
-    let gameLines = 9
-    let gameColumns = 9
-    var game: TTDGame!
+
+    var game: TTDGame {
+        return TTDGame.sharedGame
+    }
     
     private var reachablePolices = [NodePosition]()
     
@@ -46,8 +47,7 @@ class GameBoardViewController: UIViewController {
         colorButton.selected = (Theme.currentTheme == Theme.mainTheme)
         stepsLabel.text = "0 step"
         
-        game = TTDGame(lines: gameLines, columns: gameColumns)
-        gameBoardView = GameBoardView(lines: gameLines, columns: gameColumns)
+        gameBoardView = GameBoardView(lines: game.lines, columns: game.columns)
         
         view.addSubviews([soundButton, stepsLabel, gameBoardView])
         
@@ -56,11 +56,6 @@ class GameBoardViewController: UIViewController {
             make.top.equalTo(self.view).offset(10)
             make.width.height.equalTo(36)
         }
-//        colorButton.snp_makeConstraints { (make) -> Void in
-//            make.trailingMargin.equalTo(self.view)
-//            make.top.equalTo(self.view).offset(10)
-//            make.width.height.equalTo(36)
-//        }
         stepsLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(titleLabel.snp_bottom)
             make.centerX.equalTo(self.view)
@@ -78,8 +73,6 @@ class GameBoardViewController: UIViewController {
         
         soundButton.addTarget(self, action: "toggleSound:", forControlEvents: .TouchUpInside)
         colorButton.addTarget(self, action: "toggleColor:", forControlEvents: .TouchUpInside)
-        
-        initGame()
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,77 +80,17 @@ class GameBoardViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func initGame() {
-        guard let currentLevel = GameLevel.currentLevel else {
-            NSNotificationCenter.defaultCenter().postNotificationName("gotoHome", object: nil)
-            return
-        }
-        
-        game.initData(currentLevel.policeNumber)
-        gameBoardView.initGameViewWithData(game.gameData)
-        
-        if game.searchNext() == nil {
-            if let circlePolices = game.getCircleSortedPolices() {
-                gameBoardView.userInteractionEnabled = false
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.gameBoardView.linkCirclePolices(circlePolices, complete: { () -> () in
-                        self.showResult(.Win)
-                        self.gameBoardView.userInteractionEnabled = true
-                        return
-                    })
-                })
-            }
+    override func viewDidAppear(animated: Bool) {
+        if !game.dataInited {
+            game.initData(GameLevel.currentLevel)
         }
     }
     
     func handleTap(recognizer: UITapGestureRecognizer) {
         let position = recognizer.locationInView(gameBoardView)
         
-        if let index = gameBoardView.indexOfPosition(position) {
-            if game.checkPositionValid(index) {
-                if game.gameData[index.line][index.column] == NodeType.Road {
-                    accumulateStep()
-                    game.gameData[index.line][index.column] = .Police
-                    trapAt(index)
-                }
-            }
-        }
-    }
-    
-    func accumulateStep() {
-        game.currentSteps++
-        stepsLabel.text = "\(game.currentSteps) Step"
-    }
-    
-    func trapAt(position: NodePosition) {
-        gameBoardView.changeIndexToType(position, type: .Police)
-        if let nextPosition = game.searchNext() {
-            if game.checkPositionValid(nextPosition) {
-                game.gameData[game.dotPosition.line][game.dotPosition.column] = .Road
-                gameBoardView.userInteractionEnabled = false
-                gameBoardView.moveDotFrom(game.dotPosition, toIndex: nextPosition, complete: { () -> () in
-                    self.game.gameData[nextPosition.line][nextPosition.column] = .Dot
-                    self.game.dotPosition = nextPosition
-                    self.gameBoardView.userInteractionEnabled = true
-                })
-                playSound("sounds/dot.mp3")
-                return
-            } else {
-                self.gameBoardView.userInteractionEnabled = false
-                gameBoardView.dotEscapeTo(nextPosition, from: game.dotPosition) {
-                    self.gameBoardView.userInteractionEnabled = true
-                    self.showResult(.Fail)
-                }
-                return
-            }
-        }
-        if let circlePolices = game.getCircleSortedPolices() {
-            self.gameBoardView.userInteractionEnabled = false
-            gameBoardView.linkCirclePolices(circlePolices, complete: { () -> () in
-                self.showResult(.Win)
-                self.gameBoardView.userInteractionEnabled = true
-                return
-            })
+        if let position = gameBoardView.indexOfPosition(position) {
+            game.trapAt(position)
         }
     }
     
@@ -166,20 +99,17 @@ class GameBoardViewController: UIViewController {
             return
         }
         if voiceEnabled {
-            let soundID = UnsafeMutablePointer<SystemSoundID>.alloc(1)
-            if AudioServicesCreateSystemSoundID(soundURL, soundID) == 0 {
-                AudioServicesPlayAlertSound(soundID.memory)
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+                
+                let soundID = UnsafeMutablePointer<SystemSoundID>.alloc(1)
+                if AudioServicesCreateSystemSoundID(soundURL, soundID) == 0 {
+                    AudioServicesPlayAlertSound(soundID.memory)
+                }
+            } catch let error as NSError {
+                logger.error("\(error)")
             }
         }
-    }
-    
-    func showResult(result: Result) {
-        if result == .Win {
-            Record.addRecord(GameLevel.currentLevel!, value: game.currentSteps)
-        }
-        
-        let snapshot = view.takeSnapshot()
-        NSNotificationCenter.defaultCenter().postNotificationName("showResult", object: nil, userInfo: ["result": Wrapper(theValue: result), "snapshot": snapshot, "totalSteps": game.currentSteps])
     }
     
     func toggleSound(sender: AnyObject) {
@@ -190,5 +120,64 @@ class GameBoardViewController: UIViewController {
     func toggleColor(sender: AnyObject) {
         colorButton.selected = !colorButton.selected
         Theme.currentTheme = [Theme.mainTheme, Theme.grayTheme].filter({ $0 != Theme.currentTheme }).first!
+    }
+    
+    func resetGameBoard() {
+        gameBoardView.resetGameBoard()
+        stepsLabel.text = "0 step"
+    }
+}
+
+extension GameBoardViewController: TTDPlayDelegate {
+    func viewScreenshot(game: TTDGame) -> UIImage? {
+        return view.takeSnapshot()
+    }
+    
+    func dataDidInited(game: TTDGame) {
+        gameBoardView.initGameViewWithData(game.gameData)
+        
+        if game.searchNext() == nil {
+            game.end(.Win)
+        }
+    }
+    
+    func dataDidUpdated(game: TTDGame) {
+        stepsLabel.text = "\(game.currentSteps) steps"
+        gameBoardView.userInteractionEnabled = false
+        if let previousDotPosition = game.previousDotPosition {
+            gameBoardView.moveDotFrom(previousDotPosition, toIndex: game.dotPosition, complete: { () -> () in
+                self.gameBoardView.userInteractionEnabled = true
+            })
+        } else {
+            logger.error("previous position empty")
+        }
+        if let previousData = game.previousData {
+            for (line, lineData) in previousData.enumerate() {
+                for (column, type) in lineData.enumerate() {
+                    if type == .Road && game.gameData[line][column] == NodeType.Police {
+                        gameBoardView.changeIndexToType(NodePosition(line: line, column: column), type: .Police)
+                    }
+                }
+            }
+        }
+        playSound("sounds/dot.mp3")
+    }
+    
+    func endAnimation(game: TTDGame, complete: () -> ()) {
+        gameBoardView.userInteractionEnabled = false
+        
+        if let circlePolices = game.getCircleSortedPolices() {
+            gameBoardView.linkCirclePolices(circlePolices, complete: { () -> () in
+                self.gameBoardView.userInteractionEnabled = true
+                complete()
+            })
+        } else {
+            if let escapePosition = game.searchEscapePosition() {
+                gameBoardView.dotEscapeTo(escapePosition, from: game.dotPosition) {
+                    self.gameBoardView.userInteractionEnabled = true
+                    complete()
+                }
+            }
+        }
     }
 }

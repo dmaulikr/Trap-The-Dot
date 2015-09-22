@@ -57,6 +57,14 @@ class GameBoardView: UIView {
         layoutNodeLayers()
     }
     
+    func resetGameBoard() {
+        if let sublayers = layer.sublayers {
+            for sublayer in sublayers {
+                sublayer.removeFromSuperlayer()
+            }
+        }
+    }
+    
     func nodeLayerForIndex(position: NodePosition, type: NodeType) -> CALayer {
         let layer = CALayer()
         layer.borderWidth = 3

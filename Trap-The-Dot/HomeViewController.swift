@@ -1,4 +1,4 @@
-//
+                                    //
 //  HomeViewController.swift
 //  Trap-The-Dot
 //
@@ -68,8 +68,8 @@ class HomeViewController: UIViewController {
                     view.transform = CGAffineTransformMakeScale(1, 1)
                     let tag = view.tag
                     let level = GameLevel(hashValue: tag)
-                    let levelObject = Wrapper<GameLevel>(theValue: level)
-                    NSNotificationCenter.defaultCenter().postNotificationName("newGameWithLevel", object: nil, userInfo: ["level": levelObject])
+                    GameLevel.currentLevel = level
+                    TTDGame.sharedGame.play()
             })
         }
     }
@@ -103,7 +103,7 @@ class HomeViewController: UIViewController {
                     let levelView = createLevelView(level)
                     levelContainerStackView.addArrangedSubview(levelView)
                     levelView.snp_makeConstraints(closure: { (make) -> Void in
-                        make.width.lessThanOrEqualTo(levelContainerStackView.snp_width).multipliedBy(0.2).offset(13)
+                        make.width.lessThanOrEqualTo(levelContainerStackView.snp_width).multipliedBy( 1.0 / Double(allLevels.count)).offset(-5)
                         make.bottomMargin.topMargin.equalTo(levelContainerStackView).priority(700)
                         make.width.equalTo(levelView.snp_height).priority(750)
                     })
@@ -117,7 +117,6 @@ class HomeViewController: UIViewController {
                 let levelView = createLevelView(level)
                 levelContainerView.addSubview(levelView)
                 levelView.snp_makeConstraints(closure: { (make) -> Void in
-                    make.width.lessThanOrEqualTo(levelContainerView.snp_width).multipliedBy(0.2).offset(13)
                     make.bottomMargin.topMargin.equalTo(levelContainerView).priority(700)
                     make.width.equalTo(levelView.snp_height).priority(750)
                     make.centerX.equalTo(levelContainerView)

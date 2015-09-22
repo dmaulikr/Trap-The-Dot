@@ -45,7 +45,8 @@ class TTDGameTest: XCTestCase {
     }
     
     func testInitData() {
-        game.initData(10)
+        let level = GameLevel(hashValue: 15)
+        game.initData(level)
         
         XCTAssertEqual(game.dotPosition, NodePosition(line: 4, column: 4))
         
@@ -63,8 +64,8 @@ class TTDGameTest: XCTestCase {
             }
         }
         XCTAssertEqual(dotNum, 1, "dot number should be 1")
-        XCTAssertEqual(roadNum, 70, "road number should be 81 - 1 - 10")
-        XCTAssertEqual(policeNum, 10, "police number should be 10")
+        XCTAssertEqual(roadNum, 80 - level.policeNumber, "road number should be 81 - 1 - 10")
+        XCTAssertEqual(policeNum, level.policeNumber, "police number should be 10")
     }
     
     func testcheckPositionValid() {

@@ -9,26 +9,13 @@
 import UIKit
 import FBSDKShareKit
 
-enum Result {
-    case Win
-    case Fail
-    
-    var title: String {
-        return self == .Win ? "✌️" : "Lose"
-    }
-    
-    var message: String {
-        return self == .Win ? "Contratuates, you use only %i steps, 😄" : "The dot escaped 😭... "
-    }
-}
-
 class ResultViewController: UIViewController {
+    var result: TTDGameResult?
     
     var titleLabel: UILabel!
     lazy var resultTitleLabel = UILabel()
     lazy var resultDescriptionLabel = UILabel()
     lazy var backgroundImageView = UIImageView()
-    var screenShotImage: UIImage?
     lazy var ciContext = CIContext()
     
     @available(iOS 9.0, *)
@@ -96,25 +83,29 @@ class ResultViewController: UIViewController {
         shareButton.addTarget(self, action: "share:", forControlEvents: .TouchUpInside)
         commentButton.addTarget(self, action: "comment:", forControlEvents: .TouchUpInside)
         homeButton.addTarget(self, action: "gotoHome:", forControlEvents: .TouchUpInside)
+        
+        showResult()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-        releaseImages()
+        releaseResult()
     }
     
-    func releaseImages() {
-        screenShotImage = nil
+    func releaseResult() {
+        result = nil
         backgroundImageView.image = nil
     }
     
-    func showResult(level: GameLevel, result: Result, screenShot: UIImage?, totalSteps: Int) {
-        screenShotImage = screenShot
-        resultTitleLabel.text = result.title
-        resultDescriptionLabel.text = String(format: result.message, arguments: [totalSteps])
+    func showResult() {
+        guard let result = result else {
+            return
+        }
+        resultTitleLabel.text = result.winOrLose.title
+        resultDescriptionLabel.text = String(format: result.details, arguments: [result.totalSteps])
         
-        if let cgImage = screenShot?.CGImage {
+        if let cgImage = result.screenshot?.CGImage {
             let ciImage = CIImage(CGImage: cgImage)
             if let filter = CIFilter(name: "CIGaussianBlur") {
                 filter.setValue(ciImage, forKey: kCIInputImageKey)
@@ -131,15 +122,16 @@ class ResultViewController: UIViewController {
         
         if #available(iOS 9, *) {
             buttonsStackView.removeAllArrangedSubviews()
+            let level = GameLevel.currentLevel
             
             if level.mode == .Random {
-                if result == .Win {
+                if result.winOrLose == .Win {
                     buttonsStackView.addArrangedSubviews([ onceMoreButton, shareButton, commentButton, homeButton ])
                 } else {
                     buttonsStackView.addArrangedSubviews([ onceMoreButton, commentButton, homeButton ])
                 }
             } else {
-                if result == .Win {
+                if result.winOrLose == .Win {
                     buttonsStackView.addArrangedSubviews([ nextButton, shareButton, commentButton, homeButton ])
                 } else {
                     buttonsStackView.addArrangedSubviews([ onceMoreButton, commentButton, homeButton ])
@@ -161,21 +153,21 @@ class ResultViewController: UIViewController {
     
     func replay(sender: AnyObject?) {
         NSNotificationCenter.defaultCenter().postNotificationName("replay", object: nil)
-        releaseImages()
+        releaseResult()
     }
     
     func onceMore(sender: AnyObject?) {
         NSNotificationCenter.defaultCenter().postNotificationName("onceMore", object: nil)
-        releaseImages()
+        releaseResult()
     }
     
     func nextLevel(sender: AnyObject?) {
         NSNotificationCenter.defaultCenter().postNotificationName("nextLevel", object: nil)
-        releaseImages()
+        releaseResult()
     }
     
     func share(sender: AnyObject?) {
-        if let image = screenShotImage {
+        if let image = result?.screenshot {
             let photo = FBSDKSharePhoto(image: image, userGenerated: true)
             let photoContent = FBSDKSharePhotoContent()
             photoContent.photos = [photo]
@@ -191,7 +183,7 @@ class ResultViewController: UIViewController {
     
     func gotoHome(sender: AnyObject?) {
         NSNotificationCenter.defaultCenter().postNotificationName("gotoHome", object: nil)
-        releaseImages()
+        releaseResult()
     }
 }
 

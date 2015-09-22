@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum GameMode {
     case Random
@@ -65,7 +66,7 @@ struct GameLevel: Hashable {
         return newLevel
     }
     
-    static var currentLevel: GameLevel? = {
+    static var currentLevel: GameLevel = {
        return GameLevel(mode: .Random, level: 0)
     }()
     
@@ -132,15 +133,22 @@ func ==(lhs: NodePosition, rhs: NodePosition) -> Bool {
     return lhs.line == rhs.line && lhs.column == rhs.column
 }
 
-class TTDGame {
+class TTDGame: Game {
+    static let sharedGame = TTDGame(lines: 9, columns: 9)
+    
+    var playDelegate: TTDPlayDelegate?
+    var gameDelegate: GameDelegate?
     var previousData: [[NodeType]]?
     var gameData: [[NodeType]]
+    var previousDotPosition: NodePosition?
     var dotPosition: NodePosition
     var lines: Int
     var columns: Int
     var reachablePolices: [NodePosition]
+    var previousLevel: GameLevel?
     
     var currentSteps = 0
+    var dataInited = false
     
     init(lines: Int, columns: Int) {
         (self.lines, self.columns) = (lines, columns)
@@ -150,7 +158,9 @@ class TTDGame {
         gameData = [[NodeType]](count: lines, repeatedValue: lineData)
     }
     
-    func initData(policeNumber: Int) {
+    func initData(level: GameLevel) {
+        let policeNumber = level.policeNumber
+        previousLevel = level
         for (line, lineData) in gameData.enumerate() {
             for (column, _) in lineData.enumerate() {
                 gameData[line][column] = .Road
@@ -179,6 +189,60 @@ class TTDGame {
         }
         
         currentSteps = 0
+        dataInited = true
+        
+        playDelegate?.dataDidInited(self)
+    }
+    
+    func play() {
+        gameDelegate?.gameDidStart(self)
+    }
+    
+    func replay() {
+        if let previousLevel = previousLevel {
+            initData(previousLevel)
+        } else {
+            initData(GameLevel.init(mode: .Random, level: 0))
+        }
+        play()
+    }
+    
+    func end(winOrLose: WinOrLose) {
+        if winOrLose == .Win {
+            Record.addRecord(GameLevel.currentLevel, value: currentSteps)
+        }
+        
+        playDelegate?.endAnimation(self) { () -> () in
+            let screenshot = self.playDelegate?.viewScreenshot(self)
+            self.gameDelegate?.gameDidEnd(self, withResult: TTDGameResult(winOrLose: winOrLose, screenshot: screenshot, totalSteps: self.currentSteps))
+        }
+        
+        dataInited = false
+    }
+    
+    func trapAt(position: NodePosition) {
+        guard checkPositionValid(position) && gameData[position.line][position.column] == NodeType.Road else {
+            return
+        }
+        
+        currentSteps++
+        previousData = gameData
+        gameData[position.line][position.column] = .Police
+        if let nextPosition = searchNext() {
+            if checkPositionValid(nextPosition) {
+                previousDotPosition = dotPosition
+                gameData[dotPosition.line][dotPosition.column] = .Road
+                dotPosition = nextPosition
+                gameData[nextPosition.line][nextPosition.column] = .Dot
+                playDelegate?.dataDidUpdated(self)
+            } else {
+                playDelegate?.dataDidUpdated(self)
+                end(.Lose)
+            }
+        } else {
+            playDelegate?.dataDidUpdated(self)
+            end(.Win)
+        }
     }
     
     func checkPositionValid(position: NodePosition) -> Bool {
@@ -186,6 +250,16 @@ class TTDGame {
             return true
         }
         return false
+    }
+    
+    func searchEscapePosition() -> NodePosition? {
+        let roundPositions = dotPosition.roundNodePositions
+        for i in roundPositions {
+            if !checkPositionValid(i) {
+                return i
+            }
+        }
+        return nil
     }
     
     func searchNext() -> NodePosition? {
@@ -260,6 +334,10 @@ class TTDGame {
     }
     
     func getCircleSortedPolices() -> [NodePosition]? {
+        guard reachablePolices.count > 0 else {
+            return nil
+        }
+        
         let lineIsInCircle = Array<Bool>(count: gameData[0].count, repeatedValue: false)
         var hasInCircle = Array<[Bool]>(count: gameData.count, repeatedValue: lineIsInCircle)
         
@@ -331,4 +409,23 @@ class TTDGame {
         }
         return nil
     }
+}
+
+protocol TTDPlayDelegate {
+    func dataDidInited(game: TTDGame)
+    
+    func dataDidUpdated(game: TTDGame)
+    
+    func viewScreenshot(game: TTDGame) -> UIImage?
+    
+    func endAnimation(game: TTDGame, complete: ()->())
+}
+
+struct TTDGameResult: GameResult {
+    var winOrLose: WinOrLose
+    var details: String {
+        return winOrLose == .Win ? "Contratuates, you use only \(totalSteps) steps, 😄" : "The dot escaped 😭... "
+    }
+    var screenshot: UIImage?
+    var totalSteps: Int = Int.max
 }

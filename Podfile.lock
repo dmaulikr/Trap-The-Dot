@@ -16,36 +16,20 @@ PODS:
     - FBSDKCoreKit/arc
   - FBSDKShareKit (4.6.0):
     - FBSDKCoreKit
-  - SnapKit (0.13.0)
-  - XCGLogger (3.0b3)
+  - SnapKit (0.14.0)
+  - XCGLogger (3.0)
 
 DEPENDENCIES:
   - FBSDKCoreKit
   - FBSDKShareKit
-  - SnapKit (from `https://github.com/SnapKit/SnapKit.git`, branch `swift-2.0`)
-  - XCGLogger (from `https://github.com/DaveWoodCom/XCGLogger.git`, branch `swift_2.0`)
-
-EXTERNAL SOURCES:
-  SnapKit:
-    :branch: swift-2.0
-    :git: https://github.com/SnapKit/SnapKit.git
-  XCGLogger:
-    :branch: swift_2.0
-    :git: https://github.com/DaveWoodCom/XCGLogger.git
-
-CHECKOUT OPTIONS:
-  SnapKit:
-    :commit: 4f19419528baa3dfaca20e26fea2be410ddc79e2
-    :git: https://github.com/SnapKit/SnapKit.git
-  XCGLogger:
-    :commit: 8172bc80f50dae666f1081e32c97192cc1167e81
-    :git: https://github.com/DaveWoodCom/XCGLogger.git
+  - SnapKit
+  - XCGLogger
 
 SPEC CHECKSUMS:
   Bolts: 20a2bd788273360cb1e31530dc19b8544eef2544
   FBSDKCoreKit: 9954492d90c5fd65ae831395697a1660360d61f1
   FBSDKShareKit: f474f1123791e215d0299b98b3ee92ddd9187d86
-  SnapKit: 69fe274c71511df89a5591c11437a8b826bfa9eb
-  XCGLogger: cf74de540a625c4925054a71997f188d76c98fbc
+  SnapKit: f42352ef34953866da0de1e1009c2ff82588a95e
+  XCGLogger: 5802533aff8bafc8b3b9776ab8972576f31d0a4e
 
 COCOAPODS: 0.38.2
