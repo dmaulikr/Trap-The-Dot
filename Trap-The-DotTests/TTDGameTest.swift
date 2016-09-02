@@ -55,11 +55,11 @@ class TTDGameTest: XCTestCase {
             for type in lineData {
                 switch type {
                 case .Dot:
-                    dotNum++
+                    dotNum += 1
                 case .Police:
-                    policeNum++
+                    policeNum += 1
                 case .Road:
-                    roadNum++
+                    roadNum += 1
                 }
             }
         }
@@ -198,8 +198,7 @@ class TTDGameTest: XCTestCase {
             NodePosition(line: 1, column: 0),
         ]
         if let circlePositions = game.getCircleSortedPolices() {
-            if let firstPosition = result.indexOf(circlePositions[0])?.value {
-                let firstPosition = Int(firstPosition)
+            if let firstPosition = result.indexOf(circlePositions[0]) {
                 for (i, position) in result[firstPosition..<result.count].enumerate() {
                     XCTAssertEqual(position, circlePositions[i], "the \(i + firstPosition)th not right")
                 }

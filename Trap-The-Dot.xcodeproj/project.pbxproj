@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		46DA3F4AE78D76B1C41B2EC5 /* Pods_Trap_The_DotUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E59297C13306C6BB2FBFEF6 /* Pods_Trap_The_DotUITests.framework */; };
 		533939EE1B87162300E15029 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533939ED1B87162300E15029 /* AppDelegate.swift */; };
 		533939F01B87162300E15029 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533939EF1B87162300E15029 /* ViewController.swift */; };
 		533939F31B87162300E15029 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 533939F11B87162300E15029 /* Main.storyboard */; };
@@ -17,20 +18,21 @@
 		53393A1C1B871ED000E15029 /* GameBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53393A1B1B871ED000E15029 /* GameBoardViewController.swift */; };
 		535B08BF1B8D643F00069BA2 /* TTDGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535B08BE1B8D643F00069BA2 /* TTDGame.swift */; };
 		535B08C11B8D74FF00069BA2 /* TTDGameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535B08C01B8D74FF00069BA2 /* TTDGameTest.swift */; };
-		536813AF1B902083002AE6DE /* Foundation+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536813AE1B902083002AE6DE /* Foundation+extensions.swift */; settings = {ASSET_TAGS = (); }; };
-		536813B11B9201EE002AE6DE /* LevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536813B01B9201EE002AE6DE /* LevelView.swift */; settings = {ASSET_TAGS = (); }; };
-		538716501B9C382300E3C9E8 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 5387164F1B9C382300E3C9E8 /* images */; settings = {ASSET_TAGS = (); }; };
-		538716521B9C383000E3C9E8 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 538716511B9C383000E3C9E8 /* sounds */; settings = {ASSET_TAGS = (); }; };
-		53C3C1661BA270970068A6D4 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C3C1651BA270970068A6D4 /* Record.swift */; settings = {ASSET_TAGS = (); }; };
-		53CED4B31BAE445C00BF22BA /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CED4B21BAE445C00BF22BA /* NavigationController.swift */; settings = {ASSET_TAGS = (); }; };
-		53CED4B51BAE44A100BF22BA /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CED4B41BAE44A100BF22BA /* Game.swift */; settings = {ASSET_TAGS = (); }; };
+		536813AF1B902083002AE6DE /* Foundation+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536813AE1B902083002AE6DE /* Foundation+extensions.swift */; };
+		536813B11B9201EE002AE6DE /* LevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536813B01B9201EE002AE6DE /* LevelView.swift */; };
+		538716501B9C382300E3C9E8 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 5387164F1B9C382300E3C9E8 /* images */; };
+		538716521B9C383000E3C9E8 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 538716511B9C383000E3C9E8 /* sounds */; };
+		53C3C1661BA270970068A6D4 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C3C1651BA270970068A6D4 /* Record.swift */; };
+		53CED4B31BAE445C00BF22BA /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CED4B21BAE445C00BF22BA /* NavigationController.swift */; };
+		53CED4B51BAE44A100BF22BA /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CED4B41BAE44A100BF22BA /* Game.swift */; };
 		53DFF6771B87F800002ADD4A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF6761B87F800002ADD4A /* HomeViewController.swift */; };
 		53DFF6791B87F856002ADD4A /* UIViewController+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF6781B87F856002ADD4A /* UIViewController+extensions.swift */; };
 		53DFF67B1B87FA37002ADD4A /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF67A1B87FA37002ADD4A /* ResultViewController.swift */; };
 		53DFF67D1B87FB4D002ADD4A /* UIView+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF67C1B87FB4D002ADD4A /* UIView+extensions.swift */; };
 		53DFF67F1B8805AC002ADD4A /* GameBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DFF67E1B8805AC002ADD4A /* GameBoardView.swift */; };
-		53E595B91B9466A30028CFE4 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E595B81B9466A30028CFE4 /* Theme.swift */; settings = {ASSET_TAGS = (); }; };
-		7EAC99632B916F66DF50BF15 /* Pods_Trap_The_Dot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13AD930D9DA4ED5BC4850381 /* Pods_Trap_The_Dot.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		53E595B91B9466A30028CFE4 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E595B81B9466A30028CFE4 /* Theme.swift */; };
+		7FC792060035740FFDBEC0FD /* Pods_Trap_The_Dot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B6E6B47B5450EE7DD70DDD /* Pods_Trap_The_Dot.framework */; };
+		A4828255081BCB93EEAEE199 /* Pods_Trap_The_DotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE68884E504B79ECA356C0FA /* Pods_Trap_The_DotTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,7 +53,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		13AD930D9DA4ED5BC4850381 /* Pods_Trap_The_Dot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trap_The_Dot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		00B6E6B47B5450EE7DD70DDD /* Pods_Trap_The_Dot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trap_The_Dot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		09A8CCF7B6BA987C6882D320 /* Pods-Trap-The-DotUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trap-The-DotUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trap-The-DotUITests/Pods-Trap-The-DotUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		17F5497BECA40B362225600B /* Pods-Trap-The-DotUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trap-The-DotUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trap-The-DotUITests/Pods-Trap-The-DotUITests.release.xcconfig"; sourceTree = "<group>"; };
+		4E59297C13306C6BB2FBFEF6 /* Pods_Trap_The_DotUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trap_The_DotUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		533939EA1B87162300E15029 /* Trap-The-Dot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Trap-The-Dot.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		533939ED1B87162300E15029 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		533939EF1B87162300E15029 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -81,8 +86,11 @@
 		53DFF67C1B87FB4D002ADD4A /* UIView+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+extensions.swift"; sourceTree = "<group>"; };
 		53DFF67E1B8805AC002ADD4A /* GameBoardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBoardView.swift; sourceTree = "<group>"; };
 		53E595B81B9466A30028CFE4 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		726B961BEA347CC7E60F9A3E /* Pods-Trap-The-Dot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trap-The-Dot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trap-The-Dot/Pods-Trap-The-Dot.debug.xcconfig"; sourceTree = "<group>"; };
-		FC131DFBB28D8E173CB5B75C /* Pods-Trap-The-Dot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trap-The-Dot.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trap-The-Dot/Pods-Trap-The-Dot.release.xcconfig"; sourceTree = "<group>"; };
+		58ADD77B4DE57FD6FB8DDD96 /* Pods-Trap-The-DotTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trap-The-DotTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trap-The-DotTests/Pods-Trap-The-DotTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7B2EF690E25C6D0A63DD1D8B /* Pods-Trap-The-Dot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trap-The-Dot.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trap-The-Dot/Pods-Trap-The-Dot.release.xcconfig"; sourceTree = "<group>"; };
+		87610243AD75DFF7C22EDD10 /* Pods-Trap-The-Dot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trap-The-Dot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Trap-The-Dot/Pods-Trap-The-Dot.debug.xcconfig"; sourceTree = "<group>"; };
+		8E11C2FD2CC783B548EE1D8C /* Pods-Trap-The-DotTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trap-The-DotTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Trap-The-DotTests/Pods-Trap-The-DotTests.release.xcconfig"; sourceTree = "<group>"; };
+		EE68884E504B79ECA356C0FA /* Pods_Trap_The_DotTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trap_The_DotTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EAC99632B916F66DF50BF15 /* Pods_Trap_The_Dot.framework in Frameworks */,
+				7FC792060035740FFDBEC0FD /* Pods_Trap_The_Dot.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4828255081BCB93EEAEE199 /* Pods_Trap_The_DotTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,29 +114,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46DA3F4AE78D76B1C41B2EC5 /* Pods_Trap_The_DotUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		16D44F86416C961852563C3C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				13AD930D9DA4ED5BC4850381 /* Pods_Trap_The_Dot.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		281D2B3ECA6200FD55E855BA /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				726B961BEA347CC7E60F9A3E /* Pods-Trap-The-Dot.debug.xcconfig */,
-				FC131DFBB28D8E173CB5B75C /* Pods-Trap-The-Dot.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		533939E11B87162300E15029 = {
 			isa = PBXGroup;
 			children = (
@@ -135,8 +128,8 @@
 				53393A011B87162300E15029 /* Trap-The-DotTests */,
 				53393A0C1B87162300E15029 /* Trap-The-DotUITests */,
 				533939EB1B87162300E15029 /* Products */,
-				281D2B3ECA6200FD55E855BA /* Pods */,
-				16D44F86416C961852563C3C /* Frameworks */,
+				A4672856FC859BFB3087216B /* Pods */,
+				BF2E1F5DFC843F09D97E5458 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -197,6 +190,29 @@
 			path = "Trap-The-DotUITests";
 			sourceTree = "<group>";
 		};
+		A4672856FC859BFB3087216B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				87610243AD75DFF7C22EDD10 /* Pods-Trap-The-Dot.debug.xcconfig */,
+				7B2EF690E25C6D0A63DD1D8B /* Pods-Trap-The-Dot.release.xcconfig */,
+				58ADD77B4DE57FD6FB8DDD96 /* Pods-Trap-The-DotTests.debug.xcconfig */,
+				8E11C2FD2CC783B548EE1D8C /* Pods-Trap-The-DotTests.release.xcconfig */,
+				09A8CCF7B6BA987C6882D320 /* Pods-Trap-The-DotUITests.debug.xcconfig */,
+				17F5497BECA40B362225600B /* Pods-Trap-The-DotUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		BF2E1F5DFC843F09D97E5458 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				00B6E6B47B5450EE7DD70DDD /* Pods_Trap_The_Dot.framework */,
+				EE68884E504B79ECA356C0FA /* Pods_Trap_The_DotTests.framework */,
+				4E59297C13306C6BB2FBFEF6 /* Pods_Trap_The_DotUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -204,12 +220,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 53393A121B87162300E15029 /* Build configuration list for PBXNativeTarget "Trap-The-Dot" */;
 			buildPhases = (
-				8DC6C5E05DCA3487CDE670E9 /* Check Pods Manifest.lock */,
+				FCE8733DC67056119D44DF6E /* 📦 Check Pods Manifest.lock */,
 				533939E61B87162300E15029 /* Sources */,
 				533939E71B87162300E15029 /* Frameworks */,
 				533939E81B87162300E15029 /* Resources */,
-				4841882F1CCB1609A27A2099 /* Embed Pods Frameworks */,
-				8876FFB8B10BDC94F2B7DDAD /* Copy Pods Resources */,
+				21335DAB69C11782ED4E5613 /* 📦 Embed Pods Frameworks */,
+				935A83CB23C9BA93E28B673F /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -224,9 +240,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 53393A151B87162300E15029 /* Build configuration list for PBXNativeTarget "Trap-The-DotTests" */;
 			buildPhases = (
+				61007AE5021C420BB15E91E9 /* 📦 Check Pods Manifest.lock */,
 				533939FA1B87162300E15029 /* Sources */,
 				533939FB1B87162300E15029 /* Frameworks */,
 				533939FC1B87162300E15029 /* Resources */,
+				26347791707010799FCC8E2F /* 📦 Embed Pods Frameworks */,
+				B605F9177DCF66639231A0DC /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -242,9 +261,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 53393A181B87162300E15029 /* Build configuration list for PBXNativeTarget "Trap-The-DotUITests" */;
 			buildPhases = (
+				FD1ADD648111486865C0B860 /* 📦 Check Pods Manifest.lock */,
 				53393A051B87162300E15029 /* Sources */,
 				53393A061B87162300E15029 /* Frameworks */,
 				53393A071B87162300E15029 /* Resources */,
+				10731B939AFA493BDB765854 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -330,14 +351,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4841882F1CCB1609A27A2099 /* Embed Pods Frameworks */ = {
+		10731B939AFA493BDB765854 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trap-The-DotUITests/Pods-Trap-The-DotUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		21335DAB69C11782ED4E5613 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,14 +381,44 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trap-The-Dot/Pods-Trap-The-Dot-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8876FFB8B10BDC94F2B7DDAD /* Copy Pods Resources */ = {
+		26347791707010799FCC8E2F /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trap-The-DotTests/Pods-Trap-The-DotTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		61007AE5021C420BB15E91E9 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		935A83CB23C9BA93E28B673F /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,14 +426,44 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trap-The-Dot/Pods-Trap-The-Dot-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8DC6C5E05DCA3487CDE670E9 /* Check Pods Manifest.lock */ = {
+		B605F9177DCF66639231A0DC /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Trap-The-DotTests/Pods-Trap-The-DotTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FCE8733DC67056119D44DF6E /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FD1ADD648111486865C0B860 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -537,12 +633,13 @@
 		};
 		53393A131B87162300E15029 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 726B961BEA347CC7E60F9A3E /* Pods-Trap-The-Dot.debug.xcconfig */;
+			baseConfigurationReference = 87610243AD75DFF7C22EDD10 /* Pods-Trap-The-Dot.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				HEADER_SEARCH_PATHS = Pods/FacebookSDK/FBSDKCoreKit;
 				INFOPLIST_FILE = "Trap-The-Dot/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -556,12 +653,13 @@
 		};
 		53393A141B87162300E15029 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC131DFBB28D8E173CB5B75C /* Pods-Trap-The-Dot.release.xcconfig */;
+			baseConfigurationReference = 7B2EF690E25C6D0A63DD1D8B /* Pods-Trap-The-Dot.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				HEADER_SEARCH_PATHS = Pods/FacebookSDK/FBSDKCoreKit;
 				INFOPLIST_FILE = "Trap-The-Dot/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -573,6 +671,7 @@
 		};
 		53393A161B87162300E15029 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 58ADD77B4DE57FD6FB8DDD96 /* Pods-Trap-The-DotTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "Trap-The-DotTests/Info.plist";
@@ -585,6 +684,7 @@
 		};
 		53393A171B87162300E15029 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8E11C2FD2CC783B548EE1D8C /* Pods-Trap-The-DotTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "Trap-The-DotTests/Info.plist";
@@ -597,6 +697,7 @@
 		};
 		53393A191B87162300E15029 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 09A8CCF7B6BA987C6882D320 /* Pods-Trap-The-DotUITests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "Trap-The-DotUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -609,6 +710,7 @@
 		};
 		53393A1A1B87162300E15029 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 17F5497BECA40B362225600B /* Pods-Trap-The-DotUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "Trap-The-DotUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

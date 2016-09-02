@@ -62,7 +62,7 @@ struct GameLevel: Hashable {
     
     var nextLevel: GameLevel {
         var newLevel = self
-        newLevel.level++
+        newLevel.level += 1
         return newLevel
     }
     
@@ -110,6 +110,13 @@ enum NodeType {
     case Police
 }
 
+enum GameState {
+    case UnInited
+    case Inited
+    case Playing
+    case Ended
+}
+
 struct NodePosition: CustomStringConvertible, Equatable {
     var line: Int
     var column: Int
@@ -148,7 +155,8 @@ class TTDGame: Game {
     var previousLevel: GameLevel?
     
     var currentSteps = 0
-    var dataInited = false
+    
+    var state: GameState;
     
     init(lines: Int, columns: Int) {
         (self.lines, self.columns) = (lines, columns)
@@ -156,6 +164,7 @@ class TTDGame: Game {
         reachablePolices = [NodePosition]()
         let lineData = [NodeType](count: columns, repeatedValue: .Road)
         gameData = [[NodeType]](count: lines, repeatedValue: lineData)
+        state = .UnInited;
     }
     
     func initData(level: GameLevel) {
@@ -189,18 +198,36 @@ class TTDGame: Game {
         }
         
         currentSteps = 0
-        dataInited = true
-        
+        state = .Inited
         playDelegate?.dataDidInited(self)
     }
     
     func play() {
+        state = .Playing;
         gameDelegate?.gameDidStart(self)
     }
     
     func replay() {
         if let previousLevel = previousLevel {
             initData(previousLevel)
+        } else {
+            initData(GameLevel.init(mode: .Random, level: 0))
+        }
+        play()
+    }
+    
+    func onceMore() {
+        if let previousLevel = previousLevel {
+            initData(previousLevel)
+        } else {
+            initData(GameLevel.init(mode: .Random, level: 0))
+        }
+        play()
+    }
+    
+    func nextLevel() {
+        if let previousLevel = previousLevel {
+            initData(previousLevel.nextLevel)
         } else {
             initData(GameLevel.init(mode: .Random, level: 0))
         }
@@ -217,7 +244,7 @@ class TTDGame: Game {
             self.gameDelegate?.gameDidEnd(self, withResult: TTDGameResult(winOrLose: winOrLose, screenshot: screenshot, totalSteps: self.currentSteps))
         }
         
-        dataInited = false
+        state = .UnInited
     }
     
     func trapAt(position: NodePosition) {
@@ -225,23 +252,30 @@ class TTDGame: Game {
             return
         }
         
-        currentSteps++
+        currentSteps += 1
         previousData = gameData
         gameData[position.line][position.column] = .Police
+        
+        previousDotPosition = dotPosition
+        var result: WinOrLose? = nil;
         if let nextPosition = searchNext() {
-            if checkPositionValid(nextPosition) {
-                previousDotPosition = dotPosition
+            if !checkPositionValid(nextPosition) {
+                result = .Lose;
+            } else {
                 gameData[dotPosition.line][dotPosition.column] = .Road
                 dotPosition = nextPosition
                 gameData[nextPosition.line][nextPosition.column] = .Dot
-                playDelegate?.dataDidUpdated(self)
-            } else {
-                playDelegate?.dataDidUpdated(self)
-                end(.Lose)
             }
         } else {
-            playDelegate?.dataDidUpdated(self)
-            end(.Win)
+            result = .Win;
+        }
+        
+        if result != nil {
+            state = .Ended
+        }
+        playDelegate?.dataDidUpdated(self);
+        if let result = result {
+            end(result)
         }
     }
     
@@ -333,6 +367,22 @@ class TTDGame: Game {
         return nextPosition
     }
     
+    func isTargetCircle(dotPos: NodePosition, circlePoses: [NodePosition]) -> Bool {
+        var (hasTop, hasBottom, hasLeft, hasRight) = (false, false, false, false)
+        for position in circlePoses {
+            if (position.line == dotPos.line && position.column < dotPos.column) {
+                hasLeft = true
+            } else if (position.line == dotPos.line && position.column > dotPos.column) {
+                hasRight = true
+            }  else if (position.line < dotPos.line && position.column == dotPos.column) {
+                hasTop = true
+            }  else if (position.line > dotPos.line && position.column == dotPos.column) {
+                hasBottom = true
+            }
+        }
+        return hasTop && hasBottom && hasLeft && hasRight;
+    }
+    
     func getCircleSortedPolices() -> [NodePosition]? {
         guard reachablePolices.count > 0 else {
             return nil
@@ -348,23 +398,12 @@ class TTDGame: Game {
             var hasNext = false
             let roundNodePositions = policeNodePosition.roundNodePositions
             for roundNodePosition in roundNodePositions {
-                if let indexInPolices = reachablePolices.indexOf(roundNodePosition)?.value {
-                    let indexInPolices = Int(indexInPolices)
-                    if indexInPolices <= count - 5 { // circle perhaps found
-                        var (hasTop, hasBottom, hasLeft, hasRight) = (false, false, false, false)
-                        for position in reachablePolices[indexInPolices...count] {
-                            if (position.line == dotPosition.line && position.column < dotPosition.column) {
-                                hasLeft = true
-                            } else if (position.line == dotPosition.line && position.column > dotPosition.column) {
-                                hasRight = true
-                            }  else if (position.line < dotPosition.line && position.column == dotPosition.column) {
-                                hasTop = true
-                            }  else if (position.line > dotPosition.line && position.column == dotPosition.column) {
-                                hasBottom = true
-                            }
-                        }
-                        if hasTop && hasBottom && hasLeft && hasRight {
-                            return Array(reachablePolices[indexInPolices...count])
+                if let indexInPolices = reachablePolices.indexOf(roundNodePosition) {
+                    if indexInPolices <= count - 5 {
+                        // circle perhaps found
+                        let targetCircle = Array(reachablePolices[indexInPolices...count]);
+                        if isTargetCircle(dotPosition, circlePoses: targetCircle) {
+                            return targetCircle;
                         } else {
                             hasInCircle[roundNodePosition.line][roundNodePosition.column] = true
                         }
@@ -386,8 +425,7 @@ class TTDGame: Game {
                     let topNodePosition = reachablePolices[top]
                     let roundNodePositions = topNodePosition.roundNodePositions
                     for roundNodePosition in roundNodePositions {
-                        if let indexInPolices = reachablePolices.indexOf(roundNodePosition)?.value {
-                            let indexInPolices = Int(indexInPolices)
+                        if let indexInPolices = reachablePolices.indexOf(roundNodePosition) {
                             if !hasInCircle[roundNodePosition.line][roundNodePosition.column] {
                                 reachablePolices[indexInPolices] = reachablePolices[top + 1]
                                 reachablePolices[top + 1] = roundNodePosition

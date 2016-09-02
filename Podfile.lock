@@ -1,23 +1,16 @@
 PODS:
-  - Bolts (1.2.2):
-    - Bolts/AppLinks (= 1.2.2)
-    - Bolts/Tasks (= 1.2.2)
-  - Bolts/AppLinks (1.2.2):
+  - Bolts (1.7.0):
+    - Bolts/AppLinks (= 1.7.0)
+    - Bolts/Tasks (= 1.7.0)
+  - Bolts/AppLinks (1.7.0):
     - Bolts/Tasks
-  - Bolts/Tasks (1.2.2)
-  - FBSDKCoreKit (4.6.0):
-    - Bolts (~> 1.1)
-    - FBSDKCoreKit/arc (= 4.6.0)
-    - FBSDKCoreKit/no-arc (= 4.6.0)
-  - FBSDKCoreKit/arc (4.6.0):
-    - Bolts (~> 1.1)
-  - FBSDKCoreKit/no-arc (4.6.0):
-    - Bolts (~> 1.1)
-    - FBSDKCoreKit/arc
-  - FBSDKShareKit (4.6.0):
+  - Bolts/Tasks (1.7.0)
+  - FBSDKCoreKit (4.12.0):
+    - Bolts (~> 1.7)
+  - FBSDKShareKit (4.12.0):
     - FBSDKCoreKit
-  - SnapKit (0.14.0)
-  - XCGLogger (3.0)
+  - SnapKit (0.21.0)
+  - XCGLogger (3.3)
 
 DEPENDENCIES:
   - FBSDKCoreKit
@@ -26,10 +19,12 @@ DEPENDENCIES:
   - XCGLogger
 
 SPEC CHECKSUMS:
-  Bolts: 20a2bd788273360cb1e31530dc19b8544eef2544
-  FBSDKCoreKit: 9954492d90c5fd65ae831395697a1660360d61f1
-  FBSDKShareKit: f474f1123791e215d0299b98b3ee92ddd9187d86
-  SnapKit: f42352ef34953866da0de1e1009c2ff82588a95e
-  XCGLogger: 5802533aff8bafc8b3b9776ab8972576f31d0a4e
+  Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
+  FBSDKCoreKit: 6e56d5a2a64a755ad4efb5dbeee8f82fb1b99775
+  FBSDKShareKit: df1491f064cffc8ebcc3fc8b71be94cc190c728e
+  SnapKit: 2756fe24b706367af224c9c508d2f9166d03354c
+  XCGLogger: d6e196e78940ff6daab17d6917107876f973fa31
 
-COCOAPODS: 0.38.2
+PODFILE CHECKSUM: 6aca8a8da7710c7999503e5d6c22b9dd03b76583
+
+COCOAPODS: 1.0.0

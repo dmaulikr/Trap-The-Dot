@@ -8,8 +8,6 @@ target 'Trap-The-Dot' do
     pod 'XCGLogger'
     pod 'FBSDKCoreKit'
     pod 'FBSDKShareKit'
-#    pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift2'
-#    pod 'ExSwift', :git => 'https://github.com/pNre/ExSwift.git', :branch => 'Swift-2.0'
 end
 
 target 'Trap-The-DotTests' do

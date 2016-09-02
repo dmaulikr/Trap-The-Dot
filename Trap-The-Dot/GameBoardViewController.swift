@@ -67,12 +67,19 @@ class GameBoardViewController: UIViewController {
             make.height.equalTo(gameBoardView.snp_width).multipliedBy(nodeHeightWidthRatio)
         }
         
-        gameBoardView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "handleTap:"))
+        gameBoardView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(GameBoardViewController.handleTap(_:))))
         
         gameBoardView.backgroundColor = view.backgroundColor
         
-        soundButton.addTarget(self, action: "toggleSound:", forControlEvents: .TouchUpInside)
-        colorButton.addTarget(self, action: "toggleColor:", forControlEvents: .TouchUpInside)
+        soundButton.addTarget(self, action: #selector(toggleSound(_:)), forControlEvents: .TouchUpInside)
+        colorButton.addTarget(self, action: #selector(toggleColor(_:)), forControlEvents: .TouchUpInside)
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(replay(_:)), name: "replay", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(onceMore(_:)), name: "onceMore", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(nextLevel(_:)), name: "nextLevel", object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -81,9 +88,22 @@ class GameBoardViewController: UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        if !game.dataInited {
+        if game.state == GameState.UnInited || game.state == GameState.Ended {
             game.initData(GameLevel.currentLevel)
         }
+        game.play()
+    }
+    
+    func replay(sender: AnyObject) {
+        game.replay()
+    }
+    
+    func onceMore(sender: AnyObject) {
+        game.onceMore()
+    }
+    
+    func nextLevel(sender: AnyObject) {
+        game.nextLevel()
     }
     
     func handleTap(recognizer: UITapGestureRecognizer) {
@@ -143,8 +163,13 @@ extension GameBoardViewController: TTDPlayDelegate {
     
     func dataDidUpdated(game: TTDGame) {
         stepsLabel.text = "\(game.currentSteps) steps"
-        gameBoardView.userInteractionEnabled = false
+        playSound("sounds/dot.mp3")
+        if game.state == .Ended {
+            return;
+        }
+        
         if let previousDotPosition = game.previousDotPosition {
+            gameBoardView.userInteractionEnabled = false
             gameBoardView.moveDotFrom(previousDotPosition, toIndex: game.dotPosition, complete: { () -> () in
                 self.gameBoardView.userInteractionEnabled = true
             })
@@ -160,7 +185,6 @@ extension GameBoardViewController: TTDPlayDelegate {
                 }
             }
         }
-        playSound("sounds/dot.mp3")
     }
     
     func endAnimation(game: TTDGame, complete: () -> ()) {

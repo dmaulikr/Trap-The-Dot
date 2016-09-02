@@ -20,21 +20,20 @@ class NavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationBarHidden = true
+        delegate = self
 
         game.gameDelegate = self
         game.playDelegate = gameViewController
         
-        setViewControllers([gameViewController], animated: false)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NavigationController.gotoHome(_:)), name: "gotoHome", object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "gotoHome:", name: "gotoHome", object: nil)
-        
-        game.play()
+        setViewControllers([gameViewController], animated: true)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func gotoHome(sender: AnyObject) {
@@ -51,5 +50,12 @@ extension NavigationController: GameDelegate {
         resultViewController.result = result as? TTDGameResult
         setViewControllers([resultViewController], animated: true)
         gameViewController.resetGameBoard()
+    }
+}
+
+
+extension NavigationController: UINavigationControllerDelegate {
+    func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return nil
     }
 }

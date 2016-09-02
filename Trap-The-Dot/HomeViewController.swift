@@ -85,7 +85,7 @@ class HomeViewController: UIViewController {
             levelView.level = level
             levelView.minSteps = Record.getRecord(level)
             levelView.tag = level.hashValue
-            let tapGesture = UITapGestureRecognizer(target: self, action: "tapAtLevel:")
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(HomeViewController.tapAtLevel(_:)))
             levelView.addGestureRecognizer(tapGesture)
             return levelView
         }

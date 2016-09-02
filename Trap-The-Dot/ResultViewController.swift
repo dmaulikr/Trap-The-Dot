@@ -77,12 +77,12 @@ class ResultViewController: UIViewController {
             }
         }
         
-        replayButton.addTarget(self, action: "replay:", forControlEvents: .TouchUpInside)
-        onceMoreButton.addTarget(self, action: "onceMore:", forControlEvents: .TouchUpInside)
-        nextButton.addTarget(self, action: "nextLevel:", forControlEvents: .TouchUpInside)
-        shareButton.addTarget(self, action: "share:", forControlEvents: .TouchUpInside)
-        commentButton.addTarget(self, action: "comment:", forControlEvents: .TouchUpInside)
-        homeButton.addTarget(self, action: "gotoHome:", forControlEvents: .TouchUpInside)
+        replayButton.addTarget(self, action: #selector(ResultViewController.replay(_:)), forControlEvents: .TouchUpInside)
+        onceMoreButton.addTarget(self, action: #selector(ResultViewController.onceMore(_:)), forControlEvents: .TouchUpInside)
+        nextButton.addTarget(self, action: #selector(ResultViewController.nextLevel(_:)), forControlEvents: .TouchUpInside)
+        shareButton.addTarget(self, action: #selector(ResultViewController.share(_:)), forControlEvents: .TouchUpInside)
+        commentButton.addTarget(self, action: #selector(ResultViewController.comment(_:)), forControlEvents: .TouchUpInside)
+        homeButton.addTarget(self, action: #selector(ResultViewController.gotoHome(_:)), forControlEvents: .TouchUpInside)
         
         showResult()
     }
